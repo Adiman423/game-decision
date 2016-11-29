@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+        <script src="gameapp.js"></script>
+        <link rel="stylesheet" href="style.css" type="text/css" />
+        <title>GameDecision</title>
+    </head>
+    <body ng-app="gameSearch" ng-controller="gameSearchController">
+        <h1><a href="/">GameDecision</a></h1>
+        <p>A fast and simple way to find out if you should buy that game or not.</p>
+        <form>
+            
+            Game name: <input id="search" type="text" placeholder ="game" name="search"/>
+            <br />
+            <br />
+            
+            <button type="submit" ng-click="search(search)">
+                Search    
+            </button>
+        
+        </form>
+        <div ng-if="games.length > 0">
+        
+        <!--The plan:
+        - if a game has a rating of 75 or higher, 
+            it should have a verdict of buy next to it
+            otherwise it should display a verdict of do not buy
+        -->
+            <h3>Games that match your search</h3>
+            
+            <br/>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Press Rating</th>
+                        <th>Players Rating</th>
+                        <th>Verdict</th>
+                        <th>Cover</th>
+                        <th ng-if="game.aggregated_rating >= 75">Steam Link</th>
+                    </tr>
+                </thead>
+                <tbody ng-repeat="game in games">
+                    <tr ng-repeat="release in game.release_dates" ng-if="release.platform == 6">
+                        <td>{{game.name}}</td>
+                        <td ng-if="game.aggregated_rating == null">NOT AVAILABLE</td>
+                        <td>{{game.aggregated_rating | number: 2}}</td>
+                        <td ng-if="game.rating">{{game.rating | number: 2}}</td>
+                        <td ng-if="game.rating == null">NOT AVAILABLE</td>
+                        <td ng-if="game.aggregated_rating >= 75">BUY!!</td>
+                        <td ng-if="game.aggregated_rating < 75">DON'T BUY!!</td>
+                        <td ng-if="game.cover.cloudinary_id"><img ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cover.cloudinary_id}}"/></td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p>Information was freely provided by <a href="http://www.igdb.com">IGDB.com</a></p>
+    </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "finalproject",
+  "version": "1.0.0",
+  "description": "final project for CS0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Adi Khajuria",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "requirejs": "^2.3.2"
+  }
+}
