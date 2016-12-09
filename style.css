@@ -6,20 +6,38 @@ body{
     font-family: sans-serif, 'Arial';
 }
 
+.ng-hide {
+   /*hiding an element */
+  display: block!important;
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
 table{
     display: inline-block;
 }
 
+
 td, th
 {
-    padding: 1em;
+    /*ensure all table cells are spaced out properly*/
+    padding: 1.0em;
 }
 
+td ul{
+    /*ensure the bullet point in an unordered list is not displayed*/
+    list-style: none;
+}
+
+/* setting the font size for an input field, a form and a div */
 div{
+    
     font-size: 1.1em;
 }
 
 form{
+    
     font-size: 1.1em;
 }
 
@@ -27,12 +45,19 @@ input{
     font-size: 1.1em;
 }
 
+/* setting the colour, font size and border radius for the button on a form*/
 button{
     background-color: #ff0000;
     border-color: #ffffff;
     color: #ffffff;
     font-size: 1.1em;
     border-radius: 1.04em;
+}
+
+/* no underlining on hyperlinks*/
+li a{
+    text-decoration: none;
+    margin-left: -15px;
 }
 
 a{

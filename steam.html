@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="angular.min.js"></script>
+        <script src="gameapp.js"></script>
+        <link rel="stylesheet" href="style.css" type="text/css" />
+        <title>Debug page</title>
+    </head>
+    <h1>List of Steam Games</h1>
+    <body ng-app="gameSearch" ng-controller="gameSearchController">
+        <ul>
+            <li ng-repeat="steam in gameList | filter: steamQuery as results | orderBy: steam.appid"><a ng-href="http://store.steampowered.com/app/{{steam.appid}}">{{steam.name}}</a></li>
+        </ul>
+    </body>
+</html>

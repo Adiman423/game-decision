@@ -1,35 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html ng-jq>
     <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.9/angular.min.js"></script>
+        <!-- adding required angular JS library and angular JS script-->
+        <script src="angular.min.js"></script>
         <script src="gameapp.js"></script>
+        <!-- adding CSS for for the page-->
         <link rel="stylesheet" href="style.css" type="text/css" />
         <title>GameDecision</title>
     </head>
-    <body ng-app="gameSearch" ng-controller="gameSearchController">
+    <body ng-app="gameSearch" ng-controller="gameSearchController" >
         <h1><a href="/">GameDecision</a></h1>
         <p>A fast and simple way to find out if you should buy that game or not.</p>
         <form>
-            
-            Game name: <input id="search" type="text" placeholder ="game" name="search"/>
+            <!-- The form where the user can enter the game to search for 
+            and the their target score
+            -->
+            <label>Game name: </label><input id="search" type="text" placeholder="game" name="search"/>
             <br />
             <br />
-            
+            <label>Your threshold (between 1 and 100 please): </label><input id="target" type="text" placeholder="target" name="target"/>
+            <br />
+            <br />
             <button type="submit" ng-click="search(search)">
                 Search    
             </button>
         
         </form>
-        <div ng-if="games.length > 0">
-        
-        <!--The plan:
-        - if a game has a rating of 75 or higher, 
-            it should have a verdict of buy next to it
-            otherwise it should display a verdict of do not buy
+        <!--
+        If the search comes back with some results
+            display them
+        The data that will be displayed from the internet game database (IGDB):
+            - The name of a game 
+            - The aggregate review score from the press for the game
+            - The aggregate review score from users of IGDB for the game
+            - If the press' review score is above the user's target score
+                display a verdict of "BUY"
+                otherwise display a verdict of "DON'T BUY"
         -->
-            <h3>Games that match your search</h3>
-            
-            <br/>
+        <div ng-if="games.length > 0">
             <table>
                 <thead>
                     <tr>
@@ -37,25 +45,52 @@
                         <th>Press Rating</th>
                         <th>Players Rating</th>
                         <th>Verdict</th>
-                        <th>Cover</th>
-                        <th ng-if="game.aggregated_rating >= 75">Steam Link</th>
+                        <th>Cover/Box Art</th>
+                        <th>Steam Link</th>
                     </tr>
                 </thead>
                 <tbody ng-repeat="game in games">
-                    <tr ng-repeat="release in game.release_dates" ng-if="release.platform == 6">
-                        <td>{{game.name}}</td>
-                        <td ng-if="game.aggregated_rating == null">NOT AVAILABLE</td>
-                        <td>{{game.aggregated_rating | number: 2}}</td>
-                        <td ng-if="game.rating">{{game.rating | number: 2}}</td>
-                        <td ng-if="game.rating == null">NOT AVAILABLE</td>
-                        <td ng-if="game.aggregated_rating >= 75">BUY!!</td>
-                        <td ng-if="game.aggregated_rating < 75">DON'T BUY!!</td>
-                        <td ng-if="game.cover.cloudinary_id"><img ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cover.cloudinary_id}}"/></td>
+                    
+                    <tr ng-repeat="release in game.release_dates" ng-if="release.platform == 6" >
+                    
+                        <td ng-bind="game.name"></td>
+                        <td ng-show="!game.aggregated_rating" class="ng-hide">N/A</td>
+                        <td ng-bind="game.aggregated_rating | number: 2" ng-hide="!game.aggregated_rating"></td>
+                        <td ng-hide="game.rating" class="ng-hide">N/A</td>
+                        <td ng-if="game.rating" ng-bind="game.rating | number: 2"></td>
+                        <td ng-show="game.aggregated_rating >= target" class="ng-hide">BUY!!</td>
+                        <td ng-show="game.aggregated_rating < target" class="ng-hide">DON'T BUY!!</td>
+                        <td ng-show="!game.aggregated_rating" class="ng-hide">No Verdict</td>
+                        <td ng-hide="game.cover.cloudinary_id" class="ng-hide">No image found</td>
+                        <td ng-show="game.cover.cloudinary_id" class="ng-hide"><img ng-bind="game.cover.cloudinary_id" ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cover.cloudinary_id}}"/></td>
                         
+                        <td ng-if="game.aggregated_rating >= target">
+                        <!--
+                        If a game is worth buying
+                            If a game's name matches the same name list of games on Steam
+                                Generate a link to the game on the Steam store
+                                This is done using the app ID for a game on the steam store
+                        -->
+                            <ul ng-repeat="steam in gameList | filter:game.name as results" ng-show="$first">
+                                <li ng-if="toLowerCase(game.name) !== toLowerCase(steam.name)">
+                                    Not on steam
+                                </li>
+                                <li ng-if="toLowerCase(game.name) === toLowerCase(steam.name)" ng-show="$first">
+                                    <a ng-href="http://store.steampowered.com/app/{{steam.appid}}">Buy on Steam</a>
+                                </li>
+                                
+                            </ul>
+                        </td>
                     </tr>
+                   
                 </tbody>
+                
             </table>
         </div>
+        <!--
+        Display "No results if there were no games found
+        -->
+        <h3 ng-hide="games.length > 0">No results</h3>
         <p>Information was freely provided by <a href="http://www.igdb.com">IGDB.com</a></p>
     </body>
 </html>
