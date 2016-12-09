@@ -8,7 +8,7 @@ angular.module('gameSearch', [])
 //start up the $http service and the $scope service
 .controller('gameSearchController', ['$http','$scope', function ($http, $scope){
   $scope.games = {};
-  $http.defaults.headers.common['X-Mashape-Key'] = 'F1UbHPYKoFmshKq9Bjshn09BMPckp15Qk0KjsnFT6k8mN03NDX';
+  $http.defaults.headers.common['X-Mashape-Key'] = 'my_IGDB_API_Key';
   
   $scope.search = function (search){
     igdb_api += document.getElementById('search').value; 
@@ -18,7 +18,7 @@ angular.module('gameSearch', [])
     $http.get(igdb_api, {
      
       headers: {
-        'X-Mashape-Key': 'F1UbHPYKoFmshKq9Bjshn09BMPckp15Qk0KjsnFT6k8mN03NDX',
+        'X-Mashape-Key': 'my_IGDB_API_Key',
         'Accept' : 'application/json'
       }
     
