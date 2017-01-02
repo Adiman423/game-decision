@@ -1,0 +1,74 @@
+body{
+    /* center contents */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.ng-hide {
+   /*hiding an element */
+  display: block!important;
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+form{ font-size: 1.1em; }
+
+table{ display: inline-block; }
+
+
+tbody{ padding: 1.05em; }
+th{
+    text-align: center;
+    border-bottom: 2px solid;
+    border-bottom-color: #000000;
+}
+td, th
+{
+    padding: 0.7em;
+    position: relative;
+}
+
+td{ font-size: 1.1em; }
+
+form{ font-size: 1.1em; }
+
+input{
+    font-size: 1.1em;
+    border: 1px solid;
+    border-color: #000000;
+}
+
+button{
+    background-color: #ff0000;
+    border-color: #ffffff;
+    color: #ffffff;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 1.04em;
+    padding: 1.01em;
+}
+
+/*Google Adsense*/
+#adSense{
+    position: absolute;
+    text-align: right;
+}
+
+
+a{ text-decoration: none; }
+
+/*
+Media Queries for responsive ads in Google Adsense
+*/
+.responsive_ads { 
+    width: 340px; 
+    height: 100px; 
+}
+@media(min-width: 500px){
+    .responsive_ads { width: 468px; height: 60px;}
+}
+@media(min-width: 800px){
+    .responsive_ads { width: 728px; height: 90px;}
+}
