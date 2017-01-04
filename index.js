@@ -6,7 +6,7 @@ var schedule = require('node-schedule');
 var fs = require('fs');
 
 var steam_api = "https://api.steampowered.com/ISteamApps/GetAppList/v2/";
-steam_api += "MY_STEAM_WEB_API_KEY";
+steam_api += "?key=STEAM_API_KEY";
 steam_api += "&format=json";  
 var gameList = {};
 

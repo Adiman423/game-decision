@@ -1,1 +1,6 @@
 node_modules/
+steamList.json
+lib/
+steam.html
+.bowerrc
+.bowerrc~
