@@ -5,12 +5,26 @@ var igdb_api = "https://igdbcom-internet-game-database-v1.p.mashape.com/games/";
 igdb_api += "?fields=name%2crating%2caggregated_rating%2crelease_dates.platform"
 + "%2ccover.cloudinary_id&limit=10&offset=0%3Adesc&search=";
 
+/* Check for a phone running Internet Explorer 10
+Taken from http://getbootstrap.com/getting-started/#support-ie10-width
+*/
+if (navigator.userAgent.match(/IEMobile\/10\.0/)){
+  var msViewportStyle = document.createElement('style');
+  msViewportStyle.appendChild(
+    document.createTextNode(
+      '@-ms-viewport{width:auto!important}'
+    )  
+  );
+  document.querySelector('head').appendChild(msViewportStyle);
+}
+
 // the start of our gameSearch module 
 angular.module('gameSearch', [])
 .controller('gameSearchController', ['$http','$scope','$filter', function ($http, $scope){
   
   $scope.games = {};
   $scope.gameList = [];
+  $scope.cleanedGameNames = [];
   $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
   
   //take the user's entry and parse it as an int
@@ -35,7 +49,11 @@ angular.module('gameSearch', [])
     function gameNameCleaner(){
       for(var i = 0; i < $scope.gameList.length; i++){
         for(var j = 0; j < $scope.games.length; j++){
-          
+          if ($scope.gameList[i]["name"].indexOf(" Trailer") !== -1){
+            
+            continue;
+          }
+            
           if ( $scope.games[j]["name"].toLowerCase() == $scope.gameList[i]["name"].toLowerCase()){
             
             $scope.games[j]["name"] = $scope.gameList[i]["name"];

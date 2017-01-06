@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        
         <!-- adding required angular JS library and angular JS script-->
         <script src="js/angular.min.js"></script>
         <script src="js/gameapp.js"></script>
+        
+        <!--Code for jQuery and bootstrap-->
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script>
         // Google analytics code
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -15,12 +23,19 @@
           ga('send', 'pageview');
         </script>
         
+        <!--Code to fetch web fonts from Google Fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+        
+        <!-- adding CSS for bootstrap-->
+        <link rel="stylesheet" href="css/bootstrap.min.css" crossorigin="anonymous">
+        
         <!-- adding CSS for the page-->
-        <link rel="stylesheet" href="/css/style.css" type="text/css" />
+        <link rel="stylesheet" href="/css/style.min.css" type="text/css" />
         <title>GameDecision - Find out if you should buy that game</title>
     </head>
     
     <body ngjq ng-app="gameSearch" ng-controller="gameSearchController" >
+        <div>
             <!--Google Adsense code-->
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <!-- Responsive Ads -->
@@ -32,38 +47,41 @@
             <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
-        <h1><a href="/"><b>GameDecision</b></a></h1>
-        <p>Find out if you should buy that game</p>
+        </div>
+        <div class="container-fluid"> 
+        <h1 id="site-title"><a href="/"><b>GameDecision</b></a></h1>
+        <p id="slogan">Find out if you should buy that game</p>
         
-        <p>Notes: For recent releases, leave the name box blank, type in your threshold and click "recent releases".</p>
+        <p>Notes: For recent releases, leave the name box blank, type in a threshold and click "recent releases".</p>
         <br />
-        <p>Smartphone users: turn your phone sideways/into a landscape orientation.</p>
+        <p>Smartphone users: turn your phone sideways/to a landscape orientation.</p>
         <br />
         <p>Threshold is the target score that shall be used to determine if a game is worth buying or not. If you decide not to set the threshold then by default it's set to 75.</p>
-        <form>
+        <form class="form-horizontal">
             <!--A form for the user to type in their search query for their game-->
-            <div>
+            <div class="form-group">
                 <label>Game name:</label><br /><input id="search" type="text" placeholder="game" name="search"/>
             </div>
-            <div>
+            <div class="form-group">
                 <!--This is the target score which is used to determine if a game is worth buying(which is 75 by default). More on this down below-->
                 
-                <label>Threshold (between 1 and 100 please):</label><input id="target" type="text" placeholder="target" name="target"/>
+                <label>Threshold (between 1 and 100 please):</label><br /><input id="target" type="text" placeholder="target" name="target"/>
                 <br />
                 
             </div>
-            <button id="searchButton" type="submit" ng-click="search(search)">
+            <button id="searchButton" type="submit" class="btn btn-primary" ng-click="search(search)">
                 <p>Search</p>    
             </button>
             </form>
         </div>
         <br />
         <h3 ng-show="games.length == 0">No results</h3>
-        <div id="gameSearch" ng-if="games.length > 0">
+        <div id="gameSearch" class="table-responsive" ng-if="games.length > 0">
             <table>
                 <thead>
                     <tr>
                         <th>Name</th>
+                        
                         <th>Press Rating</th>
                         <th>Players' Rating</th>
                         <th>Verdict</th>
@@ -97,7 +115,7 @@
                         
                         <!--Show an box/cover art for a game (if available)-->
                         <td ng-hide="game.cover.cloudinary_id" class="ng-hide">No image found</td>
-                        <td ng-show="game.cover.cloudinary_id" class="ng-hide"><img ng-bind="game.cover.cloudinary_id" ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cover.cloudinary_id}}"/></td>
+                        <td ng-show="game.cover.cloudinary_id" class="ng-hide"><img ng-bind="game.cover.cloudinary_id" class="img-responsive" ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cover.cloudinary_id}}"/></td>
                         
                         <!--If a game has "BUY" verdict then display a link to buy it on steam-->
                         <td ng-if="(game.aggregated_rating >= target) || (!game.aggregated_rating && game.rating >= target)">
@@ -111,10 +129,11 @@
                 </tbody>
             </table>
         </div>
-        
-        <p>Information was freely provided by <a href="http://www.igdb.com">IGDB.com</a>
-        <br />
-        This site is not associated/affiliated with Steam or Valve Corp. 
-        </p>
+        <div class="container-fluid">
+            <p>Information was freely provided by <a href="http://www.igdb.com">IGDB.com</a></p>
+            <p>
+            This site is not associated/affiliated with Steam or Valve Corp. 
+            </p>
+        </div>
     </body>
 </html>
