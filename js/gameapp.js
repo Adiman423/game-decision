@@ -20,11 +20,12 @@ if (navigator.userAgent.match(/IEMobile\/10\.0/)){
 
 // the start of our gameSearch module 
 angular.module('gameSearch', [])
-.controller('gameSearchController', ['$http','$scope','$filter', function ($http, $scope){
+.controller('gameSearchController', ['$http','$scope', function ($http, $scope){
   
   $scope.games = {};
   $scope.gameList = [];
   $scope.cleanedGameNames = [];
+  $scope.newReleases = {};
   $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
   
   //take the user's entry and parse it as an int
@@ -34,26 +35,11 @@ angular.module('gameSearch', [])
     $scope.target = 75;
   }
   
-  $scope.search = function (search){
-    
-    /* request the list of games on steam from the JSON file on the node server
-    *  and store it in $scope.steamList
-    */
-    $scope.target= parseInt(document.getElementById('target').value,10);
-    if (!$scope.target){
-      $scope.target = 75;
-    }
-    
-    igdb_api += document.getElementById('search').value;
-    
-    function gameNameCleaner(){
+  function gameNameCleaner(){
       for(var i = 0; i < $scope.gameList.length; i++){
+        
         for(var j = 0; j < $scope.games.length; j++){
-          if ($scope.gameList[i]["name"].indexOf(" Trailer") !== -1){
-            
-            continue;
-          }
-            
+          
           if ( $scope.games[j]["name"].toLowerCase() == $scope.gameList[i]["name"].toLowerCase()){
             
             $scope.games[j]["name"] = $scope.gameList[i]["name"];
@@ -93,10 +79,6 @@ angular.module('gameSearch', [])
             
             $scope.games[j]["name"] = $scope.gameList[i]["name"];
           }
-          else if ($scope.gameList[i]["name"].replace("\u2122","").toLowerCase().trim() == $scope.games[j]["name"].replace(": "," ").toLowerCase()){
-            
-            $scope.games[j]["name"] = $scope.gameList[i]["name"];
-          }
           
           else if ( $scope.games[j]["name"].toUpperCase() == $scope.gameList[i]["name"]){
            
@@ -105,13 +87,30 @@ angular.module('gameSearch', [])
         }
       }
     }
-    
-    $http.get('/steamList.json')
+  
+   $http.get('/steamList.json')
     .success(function(data, status, headers, config){
       
       $scope.gameList = data;
       gameNameCleaner();
    });
+  
+  $scope.search = function (search){
+    
+    /* request the list of games on steam from the JSON file on the node server
+    *  and store it in $scope.steamList
+    */
+    $scope.target= parseInt(document.getElementById('target').value,10);
+    if (!$scope.target){
+      $scope.target = 75;
+    }
+    
+    igdb_api += document.getElementById('search').value;
+    /* A function whose purpose is
+    Compare the game names from the internet game database (IGDB) and the Steam store. 
+    Compare them and if they are close enough to being a match,
+      Overwrite the game name from IGDB with the correct name from the steam store. 
+    */
   
     // make a call to the IGDB API and authenticate with an API KEY
     $http.get(igdb_api, {
@@ -126,7 +125,6 @@ angular.module('gameSearch', [])
       
       $scope.games = data;
       gameNameCleaner();
-      
     });
   };
 }]);

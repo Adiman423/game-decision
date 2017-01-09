@@ -72,6 +72,7 @@
             <button id="searchButton" type="submit" class="btn btn-primary" ng-click="search(search)">
                 <p>Search</p>    
             </button>
+            
             </form>
         </div>
         <br />
@@ -89,7 +90,7 @@
                         <th>Steam Link</th>
                     </tr>
                 </thead>
-                <tbody ng-repeat="game in games">
+                <tbody ng-repeat="game in games" >
                     <tr ng-repeat="release in game.release_dates" ng-if="release.platform === 6 || release.platform === 29 || release.platform === 79 || release.platform === 80">
                     
                         <td ng-bind="game.name"></td>
@@ -129,6 +130,8 @@
                 </tbody>
             </table>
         </div>
+        <h3 ng-show="games.length == 0">No results</h3>
+        
         <div class="container-fluid">
             <p>Information was freely provided by <a href="http://www.igdb.com">IGDB.com</a></p>
             <p>
