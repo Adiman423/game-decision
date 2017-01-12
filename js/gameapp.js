@@ -24,8 +24,6 @@ angular.module('gameSearch', [])
   
   $scope.games = {};
   $scope.gameList = [];
-  $scope.cleanedGameNames = [];
-  $scope.newReleases = {};
   $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
   
   //take the user's entry and parse it as an int
