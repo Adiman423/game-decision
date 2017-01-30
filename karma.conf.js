@@ -18,7 +18,8 @@ module.exports = function(config) {
       'js/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'node_modules/requirejs/require.js',
-      "js/releaseComponent.js",
+      'js/recentReleases.js',
+      'js/releaseComponent.js',
       {pattern: "spec/recentReleaseSpec.js", included: false},
       'test-main.js'
     ],
@@ -71,5 +72,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
-}
+  });
+};

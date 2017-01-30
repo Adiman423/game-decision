@@ -33,7 +33,7 @@ if (navigator.userAgent.match(/IEMobile\/10\.0/)){
   document.querySelector('head').appendChild(msViewportStyle);
 }
 
-var app = angular.module('gameJudgement')
+var app = angular.module('gameJudgement',[]);
 app.controller('recentReleasesCtrl',function($http,$scope){
     
     var ctrl = this;
