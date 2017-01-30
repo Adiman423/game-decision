@@ -24,7 +24,51 @@ button a:hover{
   text-decoration: none;  
 }
 
+/*Stying for Tables made with div tags instead of table tags
+Adapted from: 
+http://www.dummies.com/web-design-development/css3/using-the-div-tag-to-create-tables/
+
+and from CSS and HTML generated at: 
+http://divtable.com/generator/
+*/
+.Table {
+    display: table;
+    
+}
+
+#recentReleasesTable{
+    display: inline-block;
+}
+
+.divTableBody{
+    display: table-row-group;
+}
+
+.Heading {
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    display: table-header-group;
+}
+
+.Heading .Cell{
+    border-bottom: 2px solid #000000;
+}
+
+.Row {
+    display: table-row;
+}
+
+.Cell {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    padding: 3px 10px;
+
+}
+
 table{ display: inline-block; }
+
 
 tbody{ padding: 1.05em; }
 
@@ -57,6 +101,8 @@ button{
     border-radius: 1.04em;
     padding: 1.01em;
 }
+
+
 
 
 a{ text-decoration: none; }

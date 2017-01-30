@@ -1,3 +1,9 @@
+/*
+* This code was adapted from a tutorial written by Adam Labi (AKA Adamcadaver) which can be found below:
+* https://github.com/adamcadaver/getting-started-web-dev-js/blob/master/STEPS.md
+*/
+
+
 // A request to the Internet Game Database (IGDB) API for game data
 var igdb_api = "https://igdbcom-internet-game-database-v1.p.mashape.com/games/";
 
@@ -19,12 +25,12 @@ if (navigator.userAgent.match(/IEMobile\/10\.0/)){
 }
 
 // the start of our gameSearch module 
-angular.module('gameSearch', [])
+angular.module('gameJudgement',[])
 .controller('gameSearchController', ['$http','$scope', function ($http, $scope){
   
   $scope.games = {};
   $scope.gameList = [];
-  $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
+  $http.defaults.headers.common['X-Mashape-Key'] = 'my_IGDB_API_Key';
   
   //take the user's entry and parse it as an int
   $scope.target= parseInt(document.getElementById('target').value,10);
@@ -113,7 +119,7 @@ angular.module('gameSearch', [])
     // make a call to the IGDB API and authenticate with an API KEY
     $http.get(igdb_api, {
       headers: {
-        'X-Mashape-Key': 'MY_IGDB_API_KEY',
+        'X-Mashape-Key': 'my_IGDB_API_Key',
         'Accept' : 'application/json',
       }
       

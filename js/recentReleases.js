@@ -1,9 +1,12 @@
+/*
+* This code was adapted from a tutorial written by Adam Labi (AKA Adamcadaver) which can be found below:
+* https://github.com/adamcadaver/getting-started-web-dev-js/blob/master/STEPS.md
+*/
 // Get the current date and time in milliseconds
 var timeInMs = Date.now();
 
 // Get the date from three months ago
 var threeMonthsAgo = timeInMs - 7776000000;
-
 
 // Building the query for recent releases
 var igdb_releases = "https://igdbcom-internet-game-database-v1.p.mashape.com/games/";
@@ -18,8 +21,7 @@ Get the game name, press rating, player rating, release info
 order by release date with most recent at the top
 */
 igdb_releases += "&fields=name%2crating%2caggregated_rating%2crelease_dates"
-+ "%2ccover.cloudinary_id&limit=10&offset=0&order=release_dates.date%3Adesc";
-
++ "%2ccover.cloudinary_id%2curl&limit=10&offset=0&order=release_dates.date%3Adesc";
 
 if (navigator.userAgent.match(/IEMobile\/10\.0/)){
   var msViewportStyle = document.createElement('style');
@@ -31,65 +33,71 @@ if (navigator.userAgent.match(/IEMobile\/10\.0/)){
   document.querySelector('head').appendChild(msViewportStyle);
 }
 
-angular.module('gameApp').controller('RecentReleasesCtrl',['$http',function RecentReleasesCtrl($http){
+var app = angular.module('gameJudgement')
+app.controller('recentReleasesCtrl',function($http,$scope){
     
-    this.newReleases= {};
-    this.gameList = [];
+    var ctrl = this;
+    ctrl.newReleases = {};
+    ctrl.steamList = {};
+    
     $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
     
+    
+    
     function releaseNameCleaner(){
+      
+      for(var i = 0; i < ctrl.steamList.length; i++){
         
-      for(var i = 0; i < this.gameList.length; i++){
-        
-        for(var j = 0; j < this.newReleases.length; j++){
-
-          if ( this.newReleases[j]["name"].toLowerCase() == this.gameList[i]["name"].toLowerCase()){
-
-            this.newReleases[j]["name"] = this.gameList[i]["name"];
+        for(var j in ctrl.newReleases){
+          
+          if ( ctrl.newReleases[j]["name"].toLowerCase() == ctrl.steamList[i]["name"].toLowerCase()){
+            
+            ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
-
-          else if ( this.newReleases[j]["name"].replace(": "," ").toLowerCase() === this.gameList[i]["name"].toLowerCase()){
-
-            this.newReleases[j]["name"] = this.gameList[i]["name"];
+          
+          else if ( ctrl.newReleases[j]["name"].replace(": "," - ").toLowerCase() === ctrl.steamList[i]["name"].toLowerCase()){
+            
+            ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
-
-          else if (this.newReleases[j]["name"].replace(": "," - ").toLowerCase() === this.gameList[i]["name"].toLowerCase()){
-
-            this.newReleases[j]["name"] = this.gameList[i]["name"];
+          
+          else if ( ctrl.newReleases[j]["name"].replace(": "," ").toLowerCase() === ctrl.steamList[i]["name"].toLowerCase()){
+            
+            ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
-
-          else if (this.newReleases[j]["name"].replace("and","&") == this.gameList[i]["name"]){
-
-            this.newReleases[j]["name"] = this.gameList[i]["name"];
+          
+          else if ( ctrl.steamList[i]["name"].replace("_", " ").toLowerCase() === ctrl.newReleases[j]["name"].toLowerCase()){
+            
+            ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
-
-          else if (this.gameList[i]["name"].replace("_"," ") === this.newReleases[j]["name"]){
-
-            this.newReleases[j]["name"] = this.gameList[i]["name"];
+          
+          else if ( ctrl.newReleases[j]["name"].replace("and","&").toLowerCase() == ctrl.steamList[i]["name"].toLowerCase()){
+            
+            ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
-
-          else if (this.gameList[i]["name"].replace("®","") == this.newReleases[j]["name"]){
-
-            this.newReleases[j]["name"] = this.gameList[i]["name"];
+          
+          else if ( ctrl.steamList[i]["name"].replace("®","").toLowerCase() == ctrl.newReleases[j]["name"].toLowerCase()){
+            
+            ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
-
-          else if (this.gameList[i]["name"].replace("\u2122","").toLowerCase() == this.newReleases[j]["name"].toLowerCase()){
-
-            this.newReleases[j]["name"] = this.gameList[i]["name"];
+          
+          else if (ctrl.steamList[i]["name"].replace("\u2122","").toLowerCase() == ctrl.newReleases[j]["name"].toLowerCase()){
+            
+            ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
-
-          else if (this.gameList[i]["name"].replace("\u2122","").toLowerCase() == this.newReleases[j]["name"].replace(": "," ").toLowerCase()){
-
-            this.newReleases[j]["name"] = this.gameList[i]["name"];
+          
+          else if (ctrl.steamList[i]["name"].replace("\u2122","").toLowerCase() == ctrl.newReleases[j]["name"].replace(": ", " ").toLowerCase()){
+            
+            ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
-          else if (this.gameList[i]["name"].replace("\u2122","").toLowerCase().trim() == this.newReleases[j]["name"].replace(": "," ").toLowerCase()){
-
-            this.newReleases[j]["name"] = this.gameList[i]["name"];
+          
+          else if (ctrl.steamList[i]["name"].replace("\u2122","").trim().toLocaleLowerCase() == ctrl.newReleases[j]["name"].replace(": ", " ").toLowerCase()){
+            
+            ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
-
-          else if ( this.newReleases[j]["name"].toUpperCase() == this.gameList[i]["name"]){
-
-            this.newReleases[j]["name"] = this.gameList[i]["name"];
+          
+          else if ( ctrl.newReleases[j]["name"].toUpperCase() == ctrl.steamList[i]["name"]){
+            
+            ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
         }
       }
@@ -97,30 +105,36 @@ angular.module('gameApp').controller('RecentReleasesCtrl',['$http',function Rece
     
     $http.get('/steamList.json')
     .success(function(data, status, headers, config){
-
-      this.gameList = data;
+      
+      ctrl.steamList = data;
+      
       releaseNameCleaner();
     });
     
-    this.recentReleases = function(){
+    
+    $scope.getReleases = function(){
+    
+    $scope.target = parseInt(document.getElementById('target').value,10);
+    
+    if (!$scope.target){
+      $scope.target = 75;
+    }
+    
       
-      this.target= parseInt(document.getElementById('target').value,10);
-      if (!this.target){
-        this.target = 75;
-      }
-      
-      $http.get(igdb_releases, {
-        headers: {
-          'X-Mashape-Key': 'MY_IGDB_API_KEY',
-          'Accept' : 'application/json',
-        }
-      
+    $http({
+      method: 'GET',
+      headers: {
+        'X-Mashape-Key': 'MY_IGDB_API_KEY',
+        'Accept' : 'application/json',
+      },
+      url: igdb_releases
       // capture the response to the IGDB request in $scope.data
       // this contains the list of results from the search based on what the user entered
-      }).success(function(data, status, headers, config){
-      
-        this.newReleases = data;
-        releaseNameCleaner();
-      });  
+      }).success(function(data, status, headers, config) {
+
+          ctrl.newReleases = data;
+          releaseNameCleaner();
+         
+      });
     };
-}]);
+});

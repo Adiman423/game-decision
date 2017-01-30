@@ -1,0 +1,44 @@
+<div class="Cell">
+    <p>{{$ctrl.release.name}}</p>
+</div>
+<div ng-show="$ctrl.release.aggregated_rating" class="Cell">
+    <p>{{$ctrl.release.aggregated_rating | number: 2}}</p>
+    <a ng-href="{{$ctrl.release.url}}/reviews">Read the reviews</a>
+</div>
+<div ng-show="!$ctrl.release.aggregated_rating" class="Cell">
+    <p>N/A</p>
+</div>
+<div ng-show="$ctrl.release.rating" class="Cell">
+    <p>{{$ctrl.release.rating | number: 2}}</p>
+</div>
+<div ng-show="!$ctrl.release.rating" class="Cell">
+    <p>N/A</p>
+</div>
+<div ng-show="!$ctrl.release.rating && !$ctrl.release.aggregated_rating" class="Cell">
+    <p>No verdict(Yet!)</p>
+</div>
+<div ng-show="($ctrl.release.aggregated_rating >= $ctrl.target) || (!$ctrl.release.aggregated_rating && $ctrl.release.rating >= $ctrl.target)" class="Cell">
+    <p>BUY!!</p>
+</div>
+<div ng-show="($ctrl.release.aggregated_rating < $ctrl.target) || (!ctrl.release.aggregated_rating && $ctrl.release.rating < $ctrl.target)" class="Cell">
+    <p>DON'T BUY!!</p>
+</div>
+<div ng-show="$ctrl.release.cover.cloudinary_id"class="Cell">
+    <img class="img-responsive" ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{$ctrl.release.cover.cloudinary_id}}"/>
+</div>
+<div ng-if="($ctrl.release.aggregated_rating >= $ctrl.target) || (!$ctrl.release.aggregated_rating && $ctrl.release.rating >= $ctrl.target)" class = "Cell">
+    <div ng-repeat="steam in $ctrl.steamList | filter:$ctrl.release.name:true">
+        <div ng-if="steam.name === $ctrl.release.name">
+            <a ng-href="http://store.steampowered.com/app/{{steam.appid}}">Buy on Steam</a>
+        </div>
+        <div ng-if="(steam.name !== $ctrl.release.name) && (releaseDate.platform == 6)">
+            Foo
+        </div>
+    </div>
+</div>
+<div class="Cell" ng-if= "($ctrl.release.aggregated_rating < $ctrl.target) || (!$ctrl.release.aggregated_rating && $ctrl.release.rating < $ctrl.target)">
+    <p>Press rating or player rating was too low</p>
+</div>
+<div ng-show="!$ctrl.release.rating && !$ctrl.release.aggregated_rating" class="Cell">
+    <p>No review scores available</p>
+</div>

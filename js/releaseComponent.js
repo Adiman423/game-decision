@@ -1,12 +1,15 @@
-function recentReleasesController(){
-    
+function recentReleasesCtrl(){
+  
 }
 
-angular.module('gameApp').component('releaseDetail',{
-    templateUrl: 'recentReleases.html',
-    controller: recentReleasesController,
-    bindings:{
-        release: '='
-    }
+angular.module('gameJudgement').component('releases',{
+  
+  templateUrl: '/releases.html',
+  controller: recentReleasesCtrl,
+  bindings:{
+      release : '<',
+      steamList : '<',
+      target : '<',
+      steam : '<'
+  }
 });
-
