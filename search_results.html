@@ -28,7 +28,11 @@
 <div ng-show="!$ctrl.game.cover.cloudinary_id" class="div-table-cell">
     <p>NO IMAGE AVAILABLE</p>
 </div>
+
 <div ng-if="($ctrl.game.aggregated_rating >= $ctrl.target) || (!$ctrl.game.aggregated_rating && $ctrl.game.rating >= $ctrl.target)" class = "div-table-cell">
+    <div ng-repeat="releaseDate in $ctrl.game.release_dates" ng-show="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)">
+        NOT ON PC YET!
+    </div>
     <div ng-repeat="steam in $ctrl.steamList | filter:$ctrl.game.name:true" ng-show="$first">
         <div ng-if="steam.name === $ctrl.game.name">
             <a ng-href="http://store.steampowered.com/app/{{steam.appid}}">Buy on Steam</a>
@@ -43,4 +47,7 @@
 </div>
 <div ng-show="!$ctrl.game.rating && !$ctrl.game.aggregated_rating" class="div-table-cell">
     <p>No review scores available</p>
+    <div ng-repeat="releaseDate in $ctrl.game.release_dates" ng-show="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)">
+        NOT ON PC YET!!
+    </div>
 </div>

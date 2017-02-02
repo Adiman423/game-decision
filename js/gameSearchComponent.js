@@ -9,7 +9,8 @@ angular.module('gameJudgement').component('searchResults',{
         game: '<',
         target: '<',
         steamList: '<',
-        games: '<'
+        games: '<',
+        rightNow: '<'
     }
     
 });

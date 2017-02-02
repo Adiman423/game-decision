@@ -2,14 +2,14 @@
 * This code was adapted from a tutorial written by adamcadaver which can be found below:
 * https://github.com/adamcadaver/getting-started-web-dev-js/blob/master/STEPS.md
 */
-
+var timeInMs = Date.now();
 // A request to the Internet Game Database (IGDB) API for game data
 var igdb_api = "https://igdbcom-internet-game-database-v1.p.mashape.com/games/";
 
 igdb_api += "?filter%5Brelease_dates.platform%5D%5Beq%5D=6";
 
 // We shall fetch the game name, press rating, IGDB user rating, release
-igdb_api += "&fields=name%2crating%2caggregated_rating%2crelease_dates.platform"
+igdb_api += "&fields=name%2crating%2caggregated_rating%2crelease_dates"
 + "%2ccover.cloudinary_id&limit=10&offset=0%3Adesc&search=";
 
 /* Check for a phone running Internet Explorer 10
@@ -30,7 +30,7 @@ var gameSearchApp = angular.module('gameJudgement',[]);
 gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $scope){
   
   var searchctrl = this;
-
+  searchctrl.rightNow = timeInMs;
   searchctrl.games = {};
   searchctrl.steamList = [];
   $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
