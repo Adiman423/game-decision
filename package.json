@@ -1,10 +1,11 @@
 {
-  "name": "finalproject",
+  "name": "gameJudgement",
   "version": "1.0.0",
   "description": "final project for CS0",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "karma --browsers PhantomJS"
   },
   "author": "Adi Khajuria",
   "license": "ISC",
@@ -19,11 +20,15 @@
     "angular-mocks": "^1.5.9",
     "angular-ui-router": "^0.3.2",
     "browserify": "^13.3.0",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^2.0.1",
     "jasmine": "^2.5.2",
     "jasmine-core": "^2.5.2",
     "karma": "^1.4.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.2",
     "karma-requirejs": "^1.1.0",
     "karma-spec-reporter": "0.0.26",
     "phantomjs-prebuilt": "^2.1.14",

@@ -1,44 +1,61 @@
-<div class="Cell">
+<div class="div-table-cell">
     <p>{{$ctrl.release.name}}</p>
 </div>
-<div ng-show="$ctrl.release.aggregated_rating" class="Cell">
+<div ng-show="$ctrl.release.aggregated_rating" class="div-table-cell">
     <p>{{$ctrl.release.aggregated_rating | number: 2}}</p>
-    <a ng-href="{{$ctrl.release.url}}/reviews">Read the reviews</a>
+    <a ng-href="{{$ctrl.release.url}}/reviews" target="_blank">Read the reviews</a>
 </div>
-<div ng-show="!$ctrl.release.aggregated_rating" class="Cell">
+<div ng-show="!$ctrl.release.aggregated_rating" class="div-table-cell">
     <p>N/A</p>
 </div>
-<div ng-show="$ctrl.release.rating" class="Cell">
+<div ng-show="$ctrl.release.rating" class="div-table-cell">
     <p>{{$ctrl.release.rating | number: 2}}</p>
 </div>
-<div ng-show="!$ctrl.release.rating" class="Cell">
+<div ng-show="!$ctrl.release.rating" class="div-table-cell">
     <p>N/A</p>
 </div>
-<div ng-show="!$ctrl.release.rating && !$ctrl.release.aggregated_rating" class="Cell">
+<div ng-show="!$ctrl.release.rating && !$ctrl.release.aggregated_rating" class="div-table-cell">
     <p>No verdict(Yet!)</p>
 </div>
-<div ng-show="($ctrl.release.aggregated_rating >= $ctrl.target) || (!$ctrl.release.aggregated_rating && $ctrl.release.rating >= $ctrl.target)" class="Cell">
+<div ng-show="($ctrl.release.aggregated_rating >= $ctrl.target) || (!$ctrl.release.aggregated_rating && $ctrl.release.rating >= $ctrl.target)" class="div-table-cell">
     <p>BUY!!</p>
 </div>
-<div ng-show="($ctrl.release.aggregated_rating < $ctrl.target) || (!ctrl.release.aggregated_rating && $ctrl.release.rating < $ctrl.target)" class="Cell">
+<div ng-show="($ctrl.release.aggregated_rating < $ctrl.target) || (!ctrl.release.aggregated_rating && $ctrl.release.rating < $ctrl.target)" class="div-table-cell">
     <p>DON'T BUY!!</p>
 </div>
-<div ng-show="$ctrl.release.cover.cloudinary_id"class="Cell">
+<div ng-show="!$ctrl.release.cover.cloudinary_id">
+    <p>NO IMAGE AVAILABLE</p>
+</div>
+<div ng-show="$ctrl.release.cover.cloudinary_id"class="div-table-cell">
     <img class="img-responsive" ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{$ctrl.release.cover.cloudinary_id}}"/>
 </div>
-<div ng-if="($ctrl.release.aggregated_rating >= $ctrl.target) || (!$ctrl.release.aggregated_rating && $ctrl.release.rating >= $ctrl.target)" class = "Cell">
-    <div ng-repeat="steam in $ctrl.steamList | filter:$ctrl.release.name:true">
-        <div ng-if="steam.name === $ctrl.release.name">
-            <a ng-href="http://store.steampowered.com/app/{{steam.appid}}">Buy on Steam</a>
-        </div>
-        <div ng-if="(steam.name !== $ctrl.release.name) && (releaseDate.platform == 6)">
-            Foo
+<div ng-repeat="releaseDate in $ctrl.release.release_dates" ng-show="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)" class="div-table-cell">
+    NOT AVAILABLE FOR PC YET
+</div>
+<div ng-if="($ctrl.release.aggregated_rating >= $ctrl.target) || (!$ctrl.release.aggregated_rating && $ctrl.release.rating >= $ctrl.target)" class = "div-table-cell">
+    
+    <div ng-repeat="altName in $ctrl.release.alternative_names">
+        <div ng-repeat="steam in $ctrl.steamList | filter:altName.name:true">
+            <div ng-if="altName.name == steam.name">
+                <a ng-href="http://store.steampowered.com/app/{{steam.appid}}">Buy on steam</a>
+            </div>
         </div>
     </div>
+    
+    
+    
+    
+    <div ng-repeat="steam in $ctrl.steamList | filter:$ctrl.release.name:true">
+
+        <div ng-if="$ctrl.release.name == steam.name">
+            <a ng-href="http://store.steampowered.com/app/{{steam.appid}}">Buy on steam</a>
+        </div>
+    </div>
+    
 </div>
-<div class="Cell" ng-if= "($ctrl.release.aggregated_rating < $ctrl.target) || (!$ctrl.release.aggregated_rating && $ctrl.release.rating < $ctrl.target)">
+<div class="div-table-cell" ng-if= "($ctrl.release.aggregated_rating < $ctrl.target) || (!$ctrl.release.aggregated_rating && $ctrl.release.rating < $ctrl.target)">
     <p>Press rating or player rating was too low</p>
 </div>
-<div ng-show="!$ctrl.release.rating && !$ctrl.release.aggregated_rating" class="Cell">
+<div ng-show="!$ctrl.release.rating && !$ctrl.release.aggregated_rating" class="div-table-cell">
     <p>No review scores available</p>
 </div>
