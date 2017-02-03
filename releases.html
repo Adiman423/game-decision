@@ -37,14 +37,14 @@
     <div ng-repeat="altName in $ctrl.release.alternative_names">
         <div ng-repeat="steam in $ctrl.steamList | filter:altName.name:true">
             <div ng-if="altName.name == steam.name">
-                <a ng-href="http://store.steampowered.com/app/{{steam.appid}}">Buy on steam</a>
+                <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on steam</a>
             </div>
         </div>
     </div>
     <div ng-repeat="steam in $ctrl.steamList | filter:$ctrl.release.name:true">
         
         <div ng-if="$ctrl.release.name == steam.name">
-            <a ng-href="http://store.steampowered.com/app/{{steam.appid}}">Buy on steam</a>
+            <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on steam</a>
         </div>
     </div>
     
