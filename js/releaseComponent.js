@@ -10,6 +10,7 @@ angular.module('gameJudgement').component('releases',{
       release : '<',
       steamList : '<',
       target : '<',
-      steam : '<'
+      steam : '<',
+      rightNow : '<'
   }
 });

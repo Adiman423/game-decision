@@ -20,7 +20,7 @@ igdb_releases += "?filter%5Brelease_dates.date%5D%5Blte%5D=" + timeInMs
 Get the game name, press rating, player rating, release info
 order by release date with most recent at the top
 */
-igdb_releases += "&fields=name%2crating%2caggregated_rating%2crelease_dates"
+igdb_releases += "&fields=name%2crating%2caggregated_rating%2crelease_dates%2calternative_names"
 + "%2ccover.cloudinary_id%2curl&limit=10&offset=0&order=release_dates.date%3Adesc";
 
 if (navigator.userAgent.match(/IEMobile\/10\.0/)){
@@ -33,16 +33,16 @@ if (navigator.userAgent.match(/IEMobile\/10\.0/)){
   document.querySelector('head').appendChild(msViewportStyle);
 }
 
-var app = angular.module('gameJudgement',[]);
-app.controller('recentReleasesCtrl',function($http,$scope){
+var app = angular.module('gameJudgement');
+app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
     
     var ctrl = this;
     ctrl.newReleases = {};
     ctrl.steamList = {};
     
+    ctrl.rightNow = timeInMs;
+    ctrl.threeMonthsAgo = threeMonthsAgo;
     $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
-    
-    
     
     function releaseNameCleaner(){
       
@@ -137,4 +137,4 @@ app.controller('recentReleasesCtrl',function($http,$scope){
          
       });
     };
-});
+}]);

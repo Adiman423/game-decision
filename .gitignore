@@ -5,3 +5,9 @@ steam.html
 .bowerrc
 .bowerrc~
 js/steamList.json
+spec/igdb_api.json
+spec/steamList.json
+spec/api.json
+js/gameapp.min.js
+js/recentReleases.min.js
+js/releaseComponent.min.js

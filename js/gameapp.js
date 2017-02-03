@@ -6,10 +6,12 @@
 
 // A request to the Internet Game Database (IGDB) API for game data
 var igdb_api = "https://igdbcom-internet-game-database-v1.p.mashape.com/games/";
+igdb_api += "?filter%5Brelease_dates.platform%5D%5Beq%5D=6";
 
 // We shall fetch the game name, press rating, IGDB user rating, release
 igdb_api += "?fields=name%2crating%2caggregated_rating%2crelease_dates.platform"
 + "%2ccover.cloudinary_id&limit=10&offset=0%3Adesc&search=";
+
 
 /* Check for a phone running Internet Explorer 10
 Taken from http://getbootstrap.com/getting-started/#support-ie10-width
@@ -29,7 +31,7 @@ angular.module('gameJudgement',[])
 .controller('gameSearchController', ['$http','$scope', function ($http, $scope){
   
   $scope.games = {};
-  $scope.gameList = [];
+  $scope.steamList = [];
   $http.defaults.headers.common['X-Mashape-Key'] = 'my_IGDB_API_Key';
   
   //take the user's entry and parse it as an int
@@ -40,53 +42,53 @@ angular.module('gameJudgement',[])
   }
   
   function gameNameCleaner(){
-      for(var i = 0; i < $scope.gameList.length; i++){
+      for(var i = 0; i < $scope.steamList.length; i++){
         
         for(var j = 0; j < $scope.games.length; j++){
           
-          if ( $scope.games[j]["name"].toLowerCase() == $scope.gameList[i]["name"].toLowerCase()){
+          if ( $scope.games[j]["name"].toLowerCase() == $scope.steamList[i]["name"].toLowerCase()){
             
-            $scope.games[j]["name"] = $scope.gameList[i]["name"];
+            $scope.games[j]["name"] = $scope.steamList[i]["name"];
           }
           
-          else if ( $scope.games[j]["name"].replace(": "," ").toLowerCase() === $scope.gameList[i]["name"].toLowerCase()){
+          else if ( $scope.games[j]["name"].replace(": "," ").toLowerCase() === $scope.steamList[i]["name"].toLowerCase()){
             
-            $scope.games[j]["name"] = $scope.gameList[i]["name"];
+            $scope.games[j]["name"] = $scope.steamList[i]["name"];
           }
           
-          else if ($scope.games[j]["name"].replace(": "," - ").toLowerCase() === $scope.gameList[i]["name"].toLowerCase()){
+          else if ($scope.games[j]["name"].replace(": "," - ").toLowerCase() === $scope.steamList[i]["name"].toLowerCase()){
             
-            $scope.games[j]["name"] = $scope.gameList[i]["name"];
+            $scope.games[j]["name"] = $scope.steamList[i]["name"];
           }
           
-          else if ($scope.games[j]["name"].replace("and","&") == $scope.gameList[i]["name"]){
+          else if ($scope.games[j]["name"].replace("and","&") == $scope.steamList[i]["name"]){
             
-            $scope.games[j]["name"] = $scope.gameList[i]["name"];
+            $scope.games[j]["name"] = $scope.steamList[i]["name"];
           }
           
-          else if ($scope.gameList[i]["name"].replace("_"," ") === $scope.games[j]["name"]){
+          else if ($scope.steamList[i]["name"].replace("_"," ") === $scope.games[j]["name"]){
             
-            $scope.games[j]["name"] = $scope.gameList[i]["name"];
+            $scope.games[j]["name"] = $scope.steamList[i]["name"];
           }
           
-          else if ($scope.gameList[i]["name"].replace("®","") == $scope.games[j]["name"]){
+          else if ($scope.steamList[i]["name"].replace("®","") == $scope.games[j]["name"]){
             
-            $scope.games[j]["name"] = $scope.gameList[i]["name"];
+            $scope.games[j]["name"] = $scope.steamList[i]["name"];
           }
           
-          else if ($scope.gameList[i]["name"].replace("\u2122","").toLowerCase() == $scope.games[j]["name"].toLowerCase()){
+          else if ($scope.steamList[i]["name"].replace("\u2122","").toLowerCase() == $scope.games[j]["name"].toLowerCase()){
             
-            $scope.games[j]["name"] = $scope.gameList[i]["name"];
+            $scope.games[j]["name"] = $scope.steamList[i]["name"];
           }
           
-          else if ($scope.gameList[i]["name"].replace("\u2122","").toLowerCase() == $scope.games[j]["name"].replace(": "," ").toLowerCase()){
+          else if ($scope.steamList[i]["name"].replace("\u2122","").toLowerCase() == $scope.games[j]["name"].replace(": "," ").toLowerCase()){
             
-            $scope.games[j]["name"] = $scope.gameList[i]["name"];
+            $scope.games[j]["name"] = $scope.steamList[i]["name"];
           }
           
-          else if ( $scope.games[j]["name"].toUpperCase() == $scope.gameList[i]["name"]){
+          else if ( $scope.games[j]["name"].toUpperCase() == $scope.steamList[i]["name"]){
            
-            $scope.games[j]["name"] = $scope.gameList[i]["name"];
+            $scope.games[j]["name"] = $scope.steamList[i]["name"];
           }
         }
       }
@@ -95,7 +97,7 @@ angular.module('gameJudgement',[])
    $http.get('/steamList.json')
     .success(function(data, status, headers, config){
       
-      $scope.gameList = data;
+      $scope.steamList = data;
       gameNameCleaner();
    });
   
