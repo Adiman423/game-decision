@@ -1,5 +1,5 @@
 /*
-* This code was adapted from a tutorial written by Adam Labi (AKA Adamcadaver) which can be found below:
+* This code was adapted from a tutorial written by Adam Labi (AKA adamcadaver) which can be found below:
 * https://github.com/adamcadaver/getting-started-web-dev-js/blob/master/STEPS.md
 */
 // Get the current date and time in milliseconds
@@ -111,8 +111,16 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
       releaseNameCleaner();
     });
     
-    
+    var clickCounter = 0;
     $scope.getReleases = function(){
+    
+    clickCounter++;
+    
+    var formButtons = document.getElementById('form_buttons');
+    
+    if (clickCounter >= 1){
+      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Start over</a>';
+    }
     
     $scope.target = parseInt(document.getElementById('target').value,10);
     
