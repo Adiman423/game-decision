@@ -3,6 +3,7 @@
 </div>
 <div ng-show="$ctrl.game.aggregated_rating" class="div-table-cell">
     <p>{{$ctrl.game.aggregated_rating | number: 2}}</p>
+    <a ng-href="{{ctrl.game.url}}/reviews" target="_blank">Read the reviews</a>
 </div>
 <div ng-hide="$ctrl.game.aggregated_rating" class="div-table-cell">
     <p>N/A</p>
@@ -33,9 +34,16 @@
     <div ng-repeat="releaseDate in $ctrl.game.release_dates" ng-show="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)">
         NOT ON PC YET!
     </div>
+    <div ng-repeat="altName in $ctrl.game.alternative_names">
+        <div ng-repeat="steam in $ctrl.steamList | filter:altName.name:true">
+            <div ng-if="altName.name == steam.name">
+                <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on Steam</a>
+            </div>
+        </div>
+    </div>
     <div ng-repeat="steam in $ctrl.steamList | filter:$ctrl.game.name:true" ng-show="$first">
         <div ng-if="steam.name === $ctrl.game.name">
-            <a ng-href="http://store.steampowered.com/app/{{steam.appid}}">Buy on Steam</a>
+            <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on Steam</a>
         </div>
         <div ng-hide="steam.name === $ctrl.game.name">
             <p>NOT ON STEAM</p>

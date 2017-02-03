@@ -10,7 +10,7 @@ igdb_api += "?filter%5Brelease_dates.platform%5D%5Beq%5D=6";
 
 // We shall fetch the game name, press rating, IGDB user rating, release
 igdb_api += "&fields=name%2crating%2caggregated_rating%2crelease_dates"
-+ "%2ccover.cloudinary_id&limit=10&offset=0%3Adesc&search=";
++ "%2curl%2calternative_names%2ccover.cloudinary_id&limit=10&offset=0%3Adesc&search=";
 
 /* Check for a phone running Internet Explorer 10
 Taken from http://getbootstrap.com/getting-started/#support-ie10-width
@@ -122,7 +122,6 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
   $scope.search = function (search){
     
     clickCounter++;
-    console.log(clickCounter);
 
     var formButtons = document.getElementById('form_buttons');
     
