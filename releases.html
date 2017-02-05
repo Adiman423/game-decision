@@ -26,7 +26,7 @@
 <div ng-show="!$ctrl.release.cover.cloudinary_id">
     <p>NO IMAGE AVAILABLE</p>
 </div>
-<div ng-show="$ctrl.release.cover.cloudinary_id"class="div-table-cell">
+<div ng-if="$ctrl.release.cover.cloudinary_id"class="div-table-cell">
     <img class="img-responsive" ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{$ctrl.release.cover.cloudinary_id}}"/>
 </div>
 

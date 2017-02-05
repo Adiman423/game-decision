@@ -202,7 +202,7 @@ describe('recentReleasesCtrl',function(){
         var replaceCounter = 0;
         var gameToTest = " ";
         var cleanedReleaseName = " ";
-        
+        queryString = "call of Duty";
         releaseNameCleaner = function(){
       
           for(var i = 0; i < $scope.steamList.data.length; i++){
@@ -269,7 +269,12 @@ describe('recentReleasesCtrl',function(){
             return $controller('recentReleasesCtrl',{'$scope' : $scope});
         };
         var timeInMs = Date.now();
-        
+        var target = "foo";
+        targetVerifier = function(){
+            if (isNaN(target)){
+              return true;
+            }
+        };
     }));
     
     it("Should be true if the request for recent releases was sent", function(){
@@ -426,5 +431,21 @@ describe('recentReleasesCtrl',function(){
        
        expect(gameToTest == steamList[10].name).toBe(true);
        
+    });
+    
+    it("Should be true if the target score > 100 or < 1", function() {
+        var target = 5656;
+        
+        expect(target < 1 || target > 100).toBe(true);
+    });
+    
+    it("Should be true if the target score is not a number", function() {
+       
+       expect(targetVerifier()).toBe(true);
+    });
+    
+    it("Should be true if the user entered a queryString", function() {
+       
+       expect(queryString.length >= 1).toBe(true); 
     });
 });
