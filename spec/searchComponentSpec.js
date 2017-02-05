@@ -487,7 +487,7 @@ describe('gameSearchCtrl',function(){
         
         requestHandler = { getSearchResults: function(){
             $httpBackend.expectGET(igdb_api,{
-              'X-Mashape-Key' : 'ku8ZpWXVojmshEcFR36bq1HB3Tx4p1pL5CbjsnL0rMPn0WYVih',
+              'X-Mashape-Key' : 'MY_IGDB_API_KEY',
               'Accept' : 'application/json'
             }).respond(function(status, data, headers, statusText){
               
@@ -581,7 +581,7 @@ describe('gameSearchCtrl',function(){
     }));
     
     it("Should be true if the request for search results sent by the user was sent", function() {
-       
+       requestHandler.getSearchResults();
        expect(requestHandler.getSearchResults).toHaveBeenCalled();
     });
     
