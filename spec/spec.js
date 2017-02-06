@@ -177,8 +177,4 @@ describe("A suite of replacement tests.", function(){
        
        expect(foo.indexOf(" Costume") !== -1).toBe(true);
    });
-   
-   
-
-
 });

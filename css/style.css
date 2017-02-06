@@ -4,6 +4,11 @@ body{
     margin-right: auto;
 }
 
+.img-responsive{
+    text-align: center;
+    display: inline-block;
+}
+
 .ng-hide {
    /*hiding an element */
   display: block!important;
@@ -24,22 +29,52 @@ button a:hover{
   text-decoration: none;  
 }
 
-table{ display: inline-block; }
+/*Stying for Tables made with div tags instead of table tags
+Adapted from: 
+http://www.dummies.com/web-design-development/css3/using-the-div-tag-to-create-tables/
 
-tbody{ padding: 1.05em; }
+and from CSS and HTML generated at: 
+http://divtable.com/generator/
+*/
+.div-table {
+    display: table;
+    
+}
 
-th{
+#search-results-table{
+    display: inline-block;
+}
+
+#recent-releases-table{
+    display: inline-block;
+}
+
+.div-table-body{
+    display: table-row-group;
+}
+
+.div-table-heading {
+    font-weight: bold;
     text-align: center;
-    border-bottom: 2px solid;
-    border-bottom-color: #000000;
-}
-td, th
-{
-    padding: 0.7em;
-    position: relative;
+    vertical-align: middle;
+    display: table-header-group;
 }
 
-td{ font-size: 1.1em; }
+.div-table-heading .div-table-cell{
+    border-bottom: 2px solid #000000;
+}
+
+.div-table-row {
+    display: table-row;
+}
+
+.div-table-cell {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    padding: 3px 10px;
+
+}
 
 form{ font-size: 1.1em; }
 
@@ -58,9 +93,12 @@ button{
     padding: 1.01em;
 }
 
-
 a{ text-decoration: none; }
 
+.img-responsive{
+    text-align: center;
+    display: inline-block;
+}
 /*
 Media Queries for responsive ads in Google Adsense
 */

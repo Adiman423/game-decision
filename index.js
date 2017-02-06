@@ -1,3 +1,8 @@
+/*
+* This code was adapted from a tutorial written by @adamcadaver which can be found below:
+* https://github.com/adamcadaver/getting-started-web-dev-js/blob/master/STEPS.md
+*/
+
 var path = require('path');
 var express = require('express');
 var app = express();

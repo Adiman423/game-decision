@@ -4,134 +4,138 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
-        <!-- adding required angular JS library and angular JS script-->
-        <script src="js/angular.min.js"></script>
-        <script src="js/gameapp.js"></script>
-        
         <!--Code for jQuery and bootstrap-->
-        <script src="js/jquery-3.1.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="js/gameJudgement.js"></script>
         <script>
         // Google analytics code
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-                    
           ga('create', 'MY_GA_ACCOUNT_KEY', 'auto');
           ga('send', 'pageview');
         </script>
-        
         <!--Code to fetch web fonts from Google Fonts-->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
         
-        <!-- adding CSS for bootstrap-->
-        <link rel="stylesheet" href="css/bootstrap.min.css" crossorigin="anonymous">
+        <link rel="stylesheet" href="css/combinedStyle.css" crossorigin="anonymous">
         
-        <!-- adding CSS for the page-->
-        <link rel="stylesheet" href="/css/style.min.css" type="text/css" />
         <title>GameDecision - Find out if you should buy that game</title>
     </head>
-    
-    <body ngjq ng-app="gameSearch" ng-controller="gameSearchController" >
+    <body ngjq ng-app="gameJudgement">
         <div>
             <!--Google Adsense code-->
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <!-- Responsive Ads -->
             <ins class="adsbygoogle responsive_ads"
                  style="display:inline-block"
-                 data-ad-client="MY_ADSENSE_PUB_ID"
-                 data-ad-slot="MY_ADSENSE_SLOT_ID"
+                 data-ad-client="MY_ADSENSE_AD_CLIENT_KEY"
+                 data-ad-slot="MY_ADSENSE_AD_SLOT_KEY"
                  data-ad-format="auto"></ins>
             <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
         </div>
-        <div class="container-fluid"> 
-        <h1 id="site-title"><a href="/"><b>GameDecision</b></a></h1>
-        <p id="slogan">Find out if you should buy that game</p>
-        
-        <p>Notes: For recent releases, leave the name box blank, type in a threshold and click "recent releases".</p>
-        <br />
-        <p>Smartphone users: turn your phone sideways/to a landscape orientation.</p>
-        <br />
-        <p>Threshold is the target score that shall be used to determine if a game is worth buying or not. If you decide not to set the threshold then by default it's set to 75.</p>
-        <form class="form-horizontal">
-            <!--A form for the user to type in their search query for their game-->
-            <div class="form-group">
-                <label>Game name:</label><br /><input id="search" type="text" placeholder="game" name="search"/>
-            </div>
-            <div class="form-group">
-                <!--This is the target score which is used to determine if a game is worth buying(which is 75 by default). More on this down below-->
-                
-                <label>Threshold (between 1 and 100 please):</label><br /><input id="target" type="text" placeholder="target" name="target"/>
-                <br />
-                
-            </div>
-            <button id="searchButton" type="submit" class="btn btn-primary" ng-click="search(search)">
-                <p>Search</p>    
-            </button>
-            
-            </form>
-        </div>
-        <br />
-        <h3 ng-show="games.length == 0">No results</h3>
-        <div id="gameSearch" class="table-responsive" ng-if="games.length > 0">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        
-                        <th>Press Rating</th>
-                        <th>Players' Rating</th>
-                        <th>Verdict</th>
-                        <th>Cover/Box Art</th>
-                        <th>Steam Link</th>
-                    </tr>
-                </thead>
-                <tbody ng-repeat="game in games" >
-                    <tr ng-repeat="release in game.release_dates" ng-if="release.platform === 6 || release.platform === 29 || release.platform === 79 || release.platform === 80">
-                    
-                        <td ng-bind="game.name"></td>
-                        
-                        <!--The aggregated review score for a game from various publications-->
-                        <td ng-show="!game.aggregated_rating" class="ng-hide">N/A</td>
-                        <td ng-bind="game.aggregated_rating | number: 2" ng-hide="!game.aggregated_rating"></td>
-                        
-                        <!--The aggregated review score for a game from users of the Internet Game Database(IGDB)-->
-                        <td ng-hide="game.rating" class="ng-hide">N/A</td>
-                        
-                        <!--If a game is above the target score set by the user
-                            Display a verdict of "BUY" for a game
-                            Otherwise display a verdict of "DON'T BUY"
-                            If the press rating is not there, then the players' rating is used to determine the verdict. 
-                        -->
-                        <td ng-if="game.rating" ng-bind="game.rating | number: 2"></td>
-                        <td ng-show="(game.aggregated_rating >= target) || (!game.aggregated_rating && game.rating >= target)" class="ng-hide">BUY!!</td>
-                        <td ng-show="(game.aggregated_rating < target) || (!game.aggregated_rating && game.rating < target)" class="ng-hide">DON'T BUY!!</td>
-                        
-                        <!--If a game does not have a press rating or a player rating, display "NO VERDICT"-->
-                        <td ng-show="!game.aggregated_rating && !game.rating" class="ng-hide">No Verdict</td>
-                        
-                        <!--Show an box/cover art for a game (if available)-->
-                        <td ng-hide="game.cover.cloudinary_id" class="ng-hide">No image found</td>
-                        <td ng-show="game.cover.cloudinary_id" class="ng-hide"><img ng-bind="game.cover.cloudinary_id" class="img-responsive" ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{game.cover.cloudinary_id}}"/></td>
-                        
-                        <!--If a game has "BUY" verdict then display a link to buy it on steam-->
-                        <td ng-if="(game.aggregated_rating >= target) || (!game.aggregated_rating && game.rating >= target)">
-                            <div ng-repeat="steam in gameList | filter:game.name:true" ng-show="$first">
-                                <div ng-if="game.name === steam.name">
-                                    <a ng-href="http://store.steampowered.com/app/{{steam.appid}}">Buy on steam</a>
+        <!--<div ng-controller="gameSearchCtrl as searchctrl">-->
+            <div ng-controller="recentReleasesCtrl as ctrl">
+                <div class="container-fluid"> 
+                    <h1 id="site-title"><a href="/"><b>GameDecision</b></a></h1>
+                    <p id="slogan">Find out if you should buy that game</p>
+                    <p>Notes: For recent releases, leave the name box blank, type in a threshold and click "recent releases".</p>
+                    <br />
+                    <p>Smartphone users: turn your phone sideways/to a landscape orientation.</p>
+                    <br />
+                    <p>Threshold is the target score that shall be used to determine if a game is worth buying or not. If you decide not to set the threshold then by default it's set to 75.</p>
+                    <form class="form-horizontal">
+                    <h3 id="invalidNumber"></h3>
+                    <h3 id="invalidGameName"></h3>
+                        <!--A form for the user to type in their search query for their game-->
+                        <div class="form-group">
+                            <label>Game name:</label>
+                            <p><input id="search" type="text" placeholder="game" name="search"/></p>
+                        </div>
+                        <div class="form-group">
+                            <!--This is the target score which is used to determine if a game is worth buying(which is 75 by default). More on this down below-->
+                            <label>Threshold (between 1 and 100 please):</label>
+                            <p><input id="target" type="text" placeholder="target" name="target"/></p>
+
+                        </div>
+                        <div id="form_buttons">
+                            <button type="submit" class="btn btn-primary" ng-click="search(search)">
+                                <p>Search</p>    
+                            </button>
+                            <button  type="submit" class="btn btn-primary" ng-click="getReleases()">
+                                Recent releases
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <h3 ng-show="searchctrl.games.length == 0">No results</h3>
+                <!--
+                This table made using div tags (instead of <table tags) is placeholder for the following: 
+                https://github.com/Adiman423/game-decision/tree/search_component
+                -->
+                <div id="search-results-table" class="table-responsive" ng-if="searchctrl.games.length > 0">
+                    <div class="div-table">
+                        <div class="div-table-row">
+                            <div class="div-table-heading">
+                                <div class="div-table-cell">
+                                    <p><b>Name</b></p>
+                                </div>
+                                <div class="div-table-cell">
+                                    <p><b>Press Rating</b></p>
+                                </div>
+                                <div class="div-table-cell">
+                                    <p><b>Players' Rating</b></p>
+                                </div>
+                                <div class="div-table-cell">
+                                    <p><b>Verdict</b></p>
+                                </div>
+                                <div class="div-table-cell">
+                                    <p><b>Cover/Box Art</b></p>
+                                </div>
+                                <div class="div-table-cell">
+                                    <p><b>Steam Link</b></p>
                                 </div>
                             </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <h3 ng-show="games.length == 0">No results</h3>
-        
+                            <search-results id="resultsRow" class="div-table-row" game="game" ng-repeat="game in searchctrl.games" right-now="searchctrl.rightNow" target="target" steam-list="searchctrl.steamList"></search-results>
+                        </div>
+                    </div>
+                </div>
+                <h3 ng-if="ctrl.newReleases.length == 0">No results</h3>
+                <div  class="table-responsive" id="recent-releases-table" ng-if="ctrl.newReleases.length > 0">
+                    <h3>Recent Releases</h3>
+                    <div class="div-table">
+                        <div class="div-table-body">    
+                            <div class="div-table-row">
+                                <div class="div-table-heading">
+                                    <div class="div-table-cell">
+                                        <p><b>Name</b></p>
+                                    </div>
+                                    <div class="div-table-cell">
+                                        <p><b>Press Rating</b></p>
+                                    </div>
+                                    <div class="div-table-cell">
+                                        <p><b>Players' Rating</b></p>
+                                    </div>
+                                    <div class="div-table-cell">
+                                        <p><b>Verdict</b></p>
+                                    </div>
+                                    <div class="div-table-cell">
+                                        <p><b>Cover/Box Art</b></p>
+                                    </div>
+                                    <div class="div-table-cell">
+                                        <p><b>Steam Link</b></p>
+                                    </div>
+                                </div>
+                                <releases class="div-table-row" release="release" ng-repeat="release in ctrl.newReleases" right-now="ctrl.rightNow" three-months-ago="ctrl.threeMonthsAgo" steam-list="ctrl.steamList" target="target">
+                                </releases>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!--</div>-->
         <div class="container-fluid">
             <p>Information was freely provided by <a href="http://www.igdb.com">IGDB.com</a></p>
             <p>
