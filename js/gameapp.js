@@ -129,12 +129,53 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
       formButtons.innerHTML= '<a class="btn btn-primary" href="/">Start Over</a>';
     }
     
+    var invalidGameName = document.getElementById('invalidGameName');
+    search = document.getElementById('search').value;
+    var isAlphaNumeric = function(str){
+      // a to function check if the user only entered letters or numbers in their search query
+      var code, i, len;
+      
+      for( i = 0, len = str.length; i < len; i++){
+        code = str.charCodeAt(i);
+        if(!(code > 47 && code < 58) && //numeric
+        !(code > 64 && code < 91 ) && // uppercase letters
+        !(code > 96 && code < 123) && // lowercase letters
+        // foreign language characters
+        !(code >= 128 && code <= 155) && 
+        !(code == 157) && 
+        !(code >= 160 && code <= 165) &&
+        !(code >= 181 && code <= 183) &&
+        !(code == 198 && code == 199) &&
+        !(code >= 208 && code <= 212) &&
+        !(code >= 214 && code <= 216) &&
+        !(code >= 224 && code <= 229) &&
+        !(code >= 233 && code <= 237) &&
+        !(code == 32)){
+          
+          return false;
+        }
+      }
+      return true;
+    };
+    
+    if( isAlphaNumeric(search) == false || search.length > 140){
+      
+      invalidGameName.innerHTML = "The game name you entered was too long or invalid.";
+      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
+      return;
+    }
     
     
-    /* request the list of games on steam from the JSON file on the node server
-    *  and store it in searchctrl.steamList
-    */
     $scope.target= parseInt(document.getElementById('target').value,10);
+    
+    var invalidNumber = document.getElementById('invalidNumber');
+    if (($scope.target < 0 ||$scope.target >= 101  ) || isNaN($scope.target )){
+      
+      invalidNumber.innerHTML = "Your threshold must be between 1 and 100";
+      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
+      return;
+    }
+    
     if (!$scope.target){
       $scope.target = 75;
     }

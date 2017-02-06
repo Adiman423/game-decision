@@ -578,6 +578,35 @@ describe('gameSearchCtrl',function(){
         createController = function(){
           return $controller('gameSearchCtrl',{'$scope': $scope});
         };
+        
+        searchQuery = " ";
+        isAlphaNumeric = function(str){
+      // a to function check if the user only entered letters or numbers in their search query
+      var code, i, len;
+      
+      for( i = 0, len = str.length; i < len; i++){
+        code = str.charCodeAt(i);
+        console.log(code);
+        if(!(code > 47 && code < 58) && //numeric
+        !(code > 64 && code < 91 ) && // uppercase letters
+        !(code > 96 && code < 123) && // lowercase letters
+        // foreign language characters
+        !(code >= 128 && code <= 155) && 
+        !(code == 157) && 
+        !(code >= 160 && code <= 165) &&
+        !(code >= 181 && code <= 183) &&
+        !(code == 198 && code == 199) &&
+        !(code >= 208 && code <= 212) &&
+        !(code >= 214 && code <= 216) &&
+        !(code >= 224 && code <= 229) &&
+        !(code >= 233 && code <= 237) &&
+        !(code == 32)){
+          
+          return false;
+        }
+      }
+      return true;
+    };
     }));
     
     it("Should be true if the request for search results sent by the user was sent", function() {
@@ -705,5 +734,10 @@ describe('gameSearchCtrl',function(){
        
        expect((timeInMs < $scope.games.data[12].release_dates[0].date) && $scope.games.data[12].release_dates[0].platform == 6).toBe(true);
            
+    });
+    
+    it("Should be true if a game does not contain a valid character", function(){
+      searchQuery = "Rocket League";
+      expect(isAlphaNumeric(searchQuery)).toBe(true);
     });
 });

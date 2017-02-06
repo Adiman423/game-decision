@@ -45,7 +45,7 @@
             </script>
         </div>
         <div ng-controller="gameSearchCtrl as searchctrl">
-            <div ng-controller="recentReleasesCtrl as ctrl">
+            <!--<div ng-controller="recentReleasesCtrl as ctrl">-->
                 <div class="container-fluid"> 
                     <h1 id="site-title"><a href="/"><b>GameDecision</b></a></h1>
                     <p id="slogan">Find out if you should buy that game</p>
@@ -55,6 +55,8 @@
                     <br />
                     <p>Threshold is the target score that shall be used to determine if a game is worth buying or not. If you decide not to set the threshold then by default it's set to 75.</p>
                     <form class="form-horizontal">
+                    <b id="invalidNumber"></b>
+                    <b id="invalidGameName"></b>
                         <!--A form for the user to type in their search query for their game-->
                         <div class="form-group">
                             <label>Game name:</label>
@@ -76,7 +78,7 @@
                         </div>
                     </form>
                 </div>
-                <h3 ng-show="searchctrl.games.length == 0">No results</h3>
+                <h3 ng-if="searchctrl.games.length == 0">No results</h3>
                 <div id="search-results-table" class="table-responsive" ng-if="searchctrl.games.length > 0">
                     <div class="div-table">
                         <div class="div-table-row">
@@ -104,8 +106,8 @@
                         </div>
                     </div>
                 </div>
-                <h3 ng-show="ctrl.newReleases.length == 0">No results</h3>
-                <div  class="table-responsive" id="recent-releases-table" ng-show="ctrl.newReleases.length > 0">
+                <h3 ng-if="ctrl.newReleases.length == 0">No results</h3>
+                <div class="table-responsive" id="recent-releases-table" ng-if="ctrl.newReleases.length > 0">
                     <h3>Recent Releases</h3>
                     <div class="div-table">
                         <div class="div-table-body">    
@@ -136,7 +138,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            <!--</div>-->
         </div>
         <div class="container-fluid">
             <p>Information was freely provided by <a href="http://www.igdb.com">IGDB.com</a></p>

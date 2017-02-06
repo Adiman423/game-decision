@@ -23,7 +23,7 @@
 <div ng-show="!$ctrl.game.rating && !$ctrl.game.aggregated_rating" class="div-table-cell">
     <p>No Verdict</p>
 </div>
-<div ng-show="$ctrl.game.cover.cloudinary_id" class="div-table-cell">
+<div ng-if="$ctrl.game.cover.cloudinary_id" class="div-table-cell">
     <img class="img-responsive" ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{$ctrl.game.cover.cloudinary_id}}" />
 </div>
 <div ng-show="!$ctrl.game.cover.cloudinary_id" class="div-table-cell">
@@ -31,12 +31,14 @@
 </div>
 
 <div ng-if="($ctrl.game.aggregated_rating >= $ctrl.target) || (!$ctrl.game.aggregated_rating && $ctrl.game.rating >= $ctrl.target)" class = "div-table-cell">
-    <div ng-repeat="releaseDate in $ctrl.game.release_dates" ng-show="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)">
-        NOT ON PC YET!
+    <div ng-repeat="releaseDate in $ctrl.game.release_dates">
+        <div ng-if="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)">
+            <p>NOT ON PC YET!!</p>
+        </div>
     </div>
     <div ng-repeat="altName in $ctrl.game.alternative_names">
-        <div ng-repeat="steam in $ctrl.steamList | filter:altName.name:true">
-            <div ng-if="altName.name == steam.name">
+        <div ng-repeat="steam in $ctrl.steamList | filter:altName.name:true" ng-show="$first">
+            <div ng-if="altName.name === steam.name">
                 <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on Steam</a>
             </div>
         </div>
@@ -45,7 +47,7 @@
         <div ng-if="steam.name === $ctrl.game.name">
             <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on Steam</a>
         </div>
-        <div ng-hide="steam.name === $ctrl.game.name">
+        <div ng-if="steam.name !== $ctrl.game.name">
             <p>NOT ON STEAM</p>
         </div>
     </div>
@@ -55,7 +57,7 @@
 </div>
 <div ng-show="!$ctrl.game.rating && !$ctrl.game.aggregated_rating" class="div-table-cell">
     <p>No review scores available</p>
-    <div ng-repeat="releaseDate in $ctrl.game.release_dates" ng-show="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)">
+    <div ng-repeat="releaseDate in $ctrl.game.release_dates" ng-if="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)">
         NOT ON PC YET!!
     </div>
 </div>

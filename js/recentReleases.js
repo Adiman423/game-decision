@@ -42,7 +42,7 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
     
     ctrl.rightNow = timeInMs;
     ctrl.threeMonthsAgo = threeMonthsAgo;
-    $http.defaults.headers.common['X-Mashape-Key'] = 'ku8ZpWXVojmshEcFR36bq1HB3Tx4p1pL5CbjsnL0rMPn0WYVih';
+    $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
     
     
     
@@ -126,7 +126,7 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
     $http({
       method: 'GET',
       headers: {
-        'X-Mashape-Key': 'ku8ZpWXVojmshEcFR36bq1HB3Tx4p1pL5CbjsnL0rMPn0WYVih',
+        'X-Mashape-Key': 'MY_IGDB_API_KEY',
         'Accept' : 'application/json',
       },
       url: igdb_releases
