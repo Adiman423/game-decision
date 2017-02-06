@@ -4,6 +4,7 @@ lib/
 .bowerrc~
 spec/steamList.json
 spec/igdb_api.json
+css/combinedStyle.css
 # Minified js files
 js/angular.min.js
 js/bootstrap.min.js
