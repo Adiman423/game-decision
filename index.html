@@ -5,14 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <!--Code for jQuery and bootstrap-->
-        <script src="js/jquery-3.1.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="js/gameJudgement.js"></script>
         <!-- adding required angular JS library and angular JS script-->
-        <script src="js/angular.min.js"></script>
-        <script src="js/gameapp.js"></script>
-        <script src="js/gameSearchComponent.js"></script>
-        <script src="js/recentReleases.js"></script>
-        <script src="js/releaseComponent.js"></script>
         <script>
         // Google analytics code
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -24,11 +18,9 @@
         </script>
         <!--Code to fetch web fonts from Google Fonts-->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
-        <!-- adding CSS for bootstrap-->
-        <link rel="stylesheet" href="css/bootstrap.min.css" crossorigin="anonymous">
-        <!-- adding CSS for the page-->
-        <link rel="stylesheet" href="/css/style.css" type="text/css" />
-        <title>GameDecision - Find out if you should buy that game</title>
+        <!-- adding custom CSS and CSS from bootstrap-->
+        <link rel="stylesheet" href="css/combinedStyle.css" crossorigin="anonymous">
+        <title>GameJudgement - Find out if you should buy that game</title>
     </head>
     <body ngjq ng-app="gameJudgement">
         <div>
@@ -47,7 +39,7 @@
         <div ng-controller="gameSearchCtrl as searchctrl">
             <!--<div ng-controller="recentReleasesCtrl as ctrl">-->
                 <div class="container-fluid"> 
-                    <h1 id="site-title"><a href="/"><b>GameDecision</b></a></h1>
+                    <h1 id="site-title"><a href="/"><b>GameJudgement</b></a></h1>
                     <p id="slogan">Find out if you should buy that game</p>
                     <p>Notes: For recent releases, leave the name box blank, type in a threshold and click "recent releases".</p>
                     <br />

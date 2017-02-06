@@ -1,3 +1,11 @@
+/*Stying for Tables made with div tags instead of table tags
+Adapted from: 
+http://www.dummies.com/web-design-development/css3/using-the-div-tag-to-create-tables/
+
+and from CSS and HTML generated at: 
+http://divtable.com/generator/
+*/
+.div-table-cell,.div-table-heading{text-align:center;vertical-align:middle}form,input{font-size:1.1em}.responsive_ads,body{margin-left:auto;margin-right:auto}.img-responsive{text-align:center;display:inline-block}.ng-hide{display:block!important;position:absolute;top:-9999px;left:-9999px}button a,button a:hover{color:#fff;text-decoration:none}.div-table{display:table}#recent-releases-table,#search-results-table{display:inline-block}.div-table-body{display:table-row-group}.div-table-heading{font-weight:700;display:table-header-group}.div-table-heading .div-table-cell{border-bottom:2px solid #000}.div-table-row{display:table-row}.div-table-cell{display:table-cell;padding:3px 10px}input{border:1px solid #000}button{border-color:#fff;color:#fff;font-size:1.2em;font-weight:700;border-radius:1.04em;padding:1.01em}a{text-decoration:none}.responsive_ads{width:340px;height:100px}@media(min-width:500px){.responsive_ads{width:468px;height:60px}}@media(min-width:800px){.responsive_ads{width:728px;height:90px}}
 /*!
  * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
