@@ -1,0 +1,40 @@
+body{
+    /* center contents */
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-family: sans-serif, 'Arial';
+}
+
+table{
+    display: inline-block;
+}
+
+td, th
+{
+    padding: 1em;
+}
+
+div{
+    font-size: 1.1em;
+}
+
+form{
+    font-size: 1.1em;
+}
+
+input{
+    font-size: 1.1em;
+}
+
+button{
+    background-color: #ff0000;
+    border-color: #ffffff;
+    color: #ffffff;
+    font-size: 1.1em;
+    border-radius: 1.04em;
+}
+
+a{
+    text-decoration: none;
+}

@@ -1,11 +1,11 @@
 {
   "name": "gameJudgement",
   "version": "1.0.0",
-  "description": "final project for CS0",
+  "description": "A tool to help gamers find out if they should buy a game",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "karma --browsers PhantomJS"
+    "test": "karma start --browsers PhantomJS"
   },
   "author": "Adi Khajuria",
   "license": "ISC",
@@ -23,6 +23,7 @@
     "gulp": "^3.9.1",
     "gulp-concat": "^2.6.1",
     "gulp-uglify": "^2.0.1",
+    "gulp-clean-css": "^2.3.2",
     "jasmine": "^2.5.2",
     "jasmine-core": "^2.5.2",
     "karma": "^1.4.0",

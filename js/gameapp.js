@@ -5,12 +5,14 @@
 var timeInMs = Date.now();
 // A request to the Internet Game Database (IGDB) API for game data
 var igdb_api = "https://igdbcom-internet-game-database-v1.p.mashape.com/games/";
+igdb_api += "?filter%5Brelease_dates.platform%5D%5Beq%5D=6";
 
 igdb_api += "?filter%5Brelease_dates.platform%5D%5Beq%5D=6";
 
 // We shall fetch the game name, press rating, IGDB user rating, release
 igdb_api += "&fields=name%2crating%2caggregated_rating%2crelease_dates"
 + "%2curl%2calternative_names%2ccover.cloudinary_id&limit=10&offset=0%3Adesc&search=";
+
 
 /* Check for a phone running Internet Explorer 10
 Taken from http://getbootstrap.com/getting-started/#support-ie10-width

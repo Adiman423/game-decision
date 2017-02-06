@@ -95,6 +95,10 @@ button{
 
 a{ text-decoration: none; }
 
+.img-responsive{
+    text-align: center;
+    display: inline-block;
+}
 /*
 Media Queries for responsive ads in Google Adsense
 */

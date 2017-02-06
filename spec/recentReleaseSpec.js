@@ -52,7 +52,69 @@ describe('recentReleasesCtrl',function(){
     "id": 19924,
     "name": "Dark Souls II: Crown of the Sunken King","aggregated_rating": 81.6363636363636,"release_dates":[{"platform": 6 },{"platform": 9},{"platform": 12}],"cover": { "url": "//images.igdb.com/igdb/image/upload/t_thumb/w2xygqzliqihvu2favci.png","cloudinary_id": "w2xygqzliqihvu2favci","width": 1280,"height": 720}}  
     ,{"id": 14675,"name": "Valkyria Chronicles","release_dates": [{"platform": 38},{"platform": 45}],"cover": {     "url": "//images.igdb.com/igdb/image/upload/t_thumb/zawtful22kx7cwhs2qhc.png","cloudinary_id":"zawtful22kx7cwhs2qhc","width": 582,"height": 1000}},
-    {"id": 20341,"name": "Dark Souls II: Crown of the Ivory King", "aggregated_rating": 81.7142857142857, "release_dates": [{"platform": 6},{"platform": 9},{"platform": 12}]}
+    {"id": 20341,"name": "Dark Souls II: Crown of the Ivory King", "aggregated_rating": 81.7142857142857, "release_dates": [{"platform": 6},{"platform": 9},{"platform": 12}]},
+    {"id": 13171,"name": "Read Only Memories","rating": 99.2611637639798,"aggregated_rating": 82,"release_dates": [
+      {
+        "category": 0,"platform": 72,"date": 1405209600000,"region": 8, "human": "2014-Jul-13", "y": 2014, "m": 7 },{"category": 0, "platform": 6, "date": 1444089600000, "region": 8,"human": "2015-Oct-06","y": 2015,"m": 10},{"category": 0,        "platform": 14, "date": 1444089600000,
+        "region": 8,
+        "human": "2015-Oct-06",
+        "y": 2015,
+        "m": 10
+      },
+      {
+        "category": 0,
+        "platform": 3,
+        "date": 1444089600000,
+        "region": 8,
+        "human": "2015-Oct-06",
+        "y": 2015,
+        "m": 10
+      },
+      {
+        "category": 0,
+        "platform": 92,
+        "date": 1444089600000,
+        "region": 8,
+        "human": "2015-Oct-06",
+        "y": 2015,
+        "m": 10
+      },
+      {
+        "category": 0,
+        "platform": 48,
+        "date": 1484611200000,
+        "region": 8,
+        "human": "2017-Jan-17",
+        "y": 2017,
+        "m": 1
+      },
+      {
+        "category": 2,
+        "platform": 46,
+        "date": 1514678400000,
+        "region": 8,
+        "human": "2017",
+        "y": 2017,
+        "m": 12
+      }
+    ],
+    "alternative_names": [
+      {
+        "name": "2064: Read Only Memories",
+        "comment": "Updated rerelease"
+      },
+      {
+        "name": "Read Only Memories: Type-M",
+        "comment": "Mobile release"
+      }
+    ],
+    "cover": {
+      "url": "//images.igdb.com/igdb/image/upload/t_thumb/vxkifkekdswgaeoa3agm.png",
+      "cloudinary_id": "vxkifkekdswgaeoa3agm",
+      "width": 682,
+      "height": 1080
+    }
+  }
     ];
     
     var steamList = [
@@ -98,6 +160,10 @@ describe('recentReleasesCtrl',function(){
 		{
 			"appid": 271944,
 			"name": " DARK SOULS™ II Crown of the Ivory King "
+		},
+		{
+			"appid": 330820,
+			"name": "2064: Read Only Memories"
 		}
 	];
     
@@ -136,7 +202,7 @@ describe('recentReleasesCtrl',function(){
         var replaceCounter = 0;
         var gameToTest = " ";
         var cleanedReleaseName = " ";
-        
+        queryString = "call of Duty";
         releaseNameCleaner = function(){
       
           for(var i = 0; i < $scope.steamList.data.length; i++){
@@ -203,7 +269,12 @@ describe('recentReleasesCtrl',function(){
             return $controller('recentReleasesCtrl',{'$scope' : $scope});
         };
         var timeInMs = Date.now();
-        
+        var target = "foo";
+        targetVerifier = function(){
+            if (isNaN(target)){
+              return true;
+            }
+        };
     }));
     
     it("Should be true if the request for recent releases was sent", function(){
@@ -352,5 +423,29 @@ describe('recentReleasesCtrl',function(){
        
        expect(timeInMs < $scope.newReleases.data[0].release_dates[2].date).toBe(true);
            
+    });
+    
+    it("Should be true if a game's alternative name matches a game on the steam store",function() {
+       
+       gameToTest = $scope.newReleases.data[16].alternative_names[0].name;
+       
+       expect(gameToTest == steamList[10].name).toBe(true);
+       
+    });
+    
+    it("Should be true if the target score > 100 or < 1", function() {
+        var target = 5656;
+        
+        expect(target < 1 || target > 100).toBe(true);
+    });
+    
+    it("Should be true if the target score is not a number", function() {
+       
+       expect(targetVerifier()).toBe(true);
+    });
+    
+    it("Should be true if the user entered a queryString", function() {
+       
+       expect(queryString.length >= 1).toBe(true); 
     });
 });

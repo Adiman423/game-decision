@@ -11,14 +11,16 @@ var rename = require("gulp-rename");
 var pump = require('pump');
 
 var paths = {
-    scripts: ['js/gameapp.js','js/gameSearchComponent.js'],
+    scripts: ['js/gameapp.js','js/recentReleases.js','js/gameSearchComponent.js','js/releaseComponent.js'],
 
     filesToConcat: [
         'js/angular.min.js',
         'js/jquery-3.1.1.min.js',
         'js/bootstrap.min.js',
         'js/gameapp.min.js',
-        'js/gameSearchComponent.min.js'
+        'js/gameSearchComponent.min.js',
+        'js/recentReleases.min.js',
+        'js/releaseComponent.min.js'
     ],
     
     cssToUglify: [
@@ -64,6 +66,7 @@ gulp.task('minify-css', function(){
     .pipe(rename({suffix:'.min'}))
     .pipe(gulp.dest('css/'));
 });
+
 
 gulp.task('concat-css', function(cb) {
     return gulp.src(paths.cssToConcat)
