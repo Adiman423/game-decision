@@ -133,6 +133,10 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
     search = document.getElementById('search').value;
     var isAlphaNumeric = function(str){
       // a to function check if the user only entered letters or numbers in their search query
+      /*
+      * Adapted from: 
+      * http://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
+      */
       var code, i, len;
       
       for( i = 0, len = str.length; i < len; i++){

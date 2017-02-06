@@ -580,6 +580,10 @@ describe('gameSearchCtrl',function(){
         };
         
         searchQuery = " ";
+      /*
+      * Adapted from: 
+      * http://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
+      */
         isAlphaNumeric = function(str){
       // a to function check if the user only entered letters or numbers in their search query
       var code, i, len;
