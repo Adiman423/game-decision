@@ -33,7 +33,7 @@
 <div ng-if="($ctrl.game.aggregated_rating >= $ctrl.target) || (!$ctrl.game.aggregated_rating && $ctrl.game.rating >= $ctrl.target)" class = "div-table-cell">
     <div ng-repeat="releaseDate in $ctrl.game.release_dates">
         <div ng-if="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)">
-            <p>NOT ON PC YET!!</p>
+            <p>NOT RELEASED ON PC YET!!</p>
         </div>
     </div>
     <div ng-repeat="altName in $ctrl.game.alternative_names">
@@ -47,9 +47,6 @@
         <div ng-if="steam.name === $ctrl.game.name">
             <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on Steam</a>
         </div>
-        <div ng-if="steam.name !== $ctrl.game.name">
-            <p>NOT ON STEAM</p>
-        </div>
     </div>
 </div>
 <div class="div-table-cell" ng-if= "($ctrl.game.aggregated_rating < $ctrl.target) || (!$ctrl.game.aggregated_rating && $ctrl.game.rating < $ctrl.target)">
@@ -58,6 +55,6 @@
 <div ng-show="!$ctrl.game.rating && !$ctrl.game.aggregated_rating" class="div-table-cell">
     <p>No review scores available</p>
     <div ng-repeat="releaseDate in $ctrl.game.release_dates" ng-if="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)">
-        NOT ON PC YET!!
+        NOT RELEASED ON PC YET!!
     </div>
 </div>

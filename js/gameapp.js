@@ -7,8 +7,6 @@ var timeInMs = Date.now();
 var igdb_api = "https://igdbcom-internet-game-database-v1.p.mashape.com/games/";
 igdb_api += "?filter%5Brelease_dates.platform%5D%5Beq%5D=6";
 
-igdb_api += "?filter%5Brelease_dates.platform%5D%5Beq%5D=6";
-
 // We shall fetch the game name, press rating, IGDB user rating, release
 igdb_api += "&fields=name%2crating%2caggregated_rating%2crelease_dates"
 + "%2curl%2calternative_names%2ccover.cloudinary_id&limit=10&offset=0%3Adesc&search=";
@@ -84,7 +82,12 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
             searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if (searchctrl.steamList[i]["name"].replace("®","") == searchctrl.games[j]["name"]){
+          else if (searchctrl.steamList[i]["name"].replace("®","").replace("\u2122","").toLowerCase() == searchctrl.games[j]["name"].toLowerCase()){
+            
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
+          }
+          
+          else if (searchctrl.steamList[i]["name"].replace("®","").toLowerCase() == searchctrl.games[j]["name"].toLowerCase()){
             
             searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
