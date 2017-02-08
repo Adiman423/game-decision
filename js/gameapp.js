@@ -97,7 +97,7 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
             searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if (searchctrl.steamList[i]["name"].replace("\u2122","").trim().toLowerCase() == searchctrl.games[j]["name"].toLowerCase()){
+          else if (searchctrl.steamList[i]["name"].replace("\u2122","").toLowerCase().trim() == searchctrl.games[j]["name"].toLowerCase()){
             
             searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
@@ -119,6 +119,7 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
     .success(function(data, status, headers, config){
       
       searchctrl.steamList = data;
+      
       gameNameCleaner();
     });
    
@@ -201,9 +202,10 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
     // capture the response to the IGDB request in $scope.data
     // this contains the list of results from the search based on what the user entered
     }).success(function(data, status, headers, config){
-      
+
         searchctrl.games = data;
         gameNameCleaner();
     });
+    
   };
 }]);
