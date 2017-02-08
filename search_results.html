@@ -63,7 +63,4 @@
 </div>
 <div ng-if="!$ctrl.game.rating && !$ctrl.game.aggregated_rating" class="div-table-cell">
     <p>No review scores available</p>
-    <div ng-repeat="releaseDate in $ctrl.game.release_dates" ng-if="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)">
-        NOT RELEASED ON PC YET!!
-    </div>
 </div>
