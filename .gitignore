@@ -2,8 +2,6 @@ node_modules/
 lib/
 .bowerrc
 .bowerrc~
-spec/steamList.json
-spec/igdb_api.json
 # Combined CSS file
 css/combinedStyle.css
 # Angular library (non-minified)
