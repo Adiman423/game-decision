@@ -31,18 +31,17 @@
 </div>
 
 <div ng-if="($ctrl.release.aggregated_rating >= $ctrl.target) || (!$ctrl.release.aggregated_rating && $ctrl.release.rating >= $ctrl.target)" class = "div-table-cell">
-    <div ng-repeat="releaseDate in $ctrl.release.release_dates" ng-if="(releaseDate.platform == 6) && ($ctrl.rightNow < releaseDate.date)">
-            <p>NOT ON PC YET!!</p>
+    <div ng-repeat="releaseDate in $ctrl.release.release_dates | filter: {platform : 6} | limitTo:1" ng-if="$ctrl.rightNow < releaseDate.date">
+            <p>NOT RELEASED ON PC YET!!</p>
     </div>
     <div ng-repeat="altName in $ctrl.release.alternative_names">
-        <div ng-repeat="steam in $ctrl.steamList | filter:altName.name:true">
+        <div ng-repeat="steam in $ctrl.steamList | filter:altName.name:true | limitTo:1">
             <div ng-if="altName.name == steam.name">
                 <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on steam</a>
             </div>
         </div>
     </div>
-    <div ng-repeat="steam in $ctrl.steamList | filter:$ctrl.release.name:true">
-        
+    <div ng-repeat="steam in $ctrl.steamList | filter:$ctrl.release.name:true | limitTo:1">
         <div ng-if="$ctrl.release.name == steam.name">
             <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on steam</a>
         </div>
