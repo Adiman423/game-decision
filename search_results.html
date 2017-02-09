@@ -1,0 +1,66 @@
+<div class="div-table-cell">
+    <p>{{$ctrl.game.name}}</p>
+</div>
+<div ng-if="$ctrl.game.aggregated_rating" class="div-table-cell">
+    <p>{{$ctrl.game.aggregated_rating | number: 2}}</p>
+    <a ng-href="{{ctrl.game.url}}/reviews" target="_blank">Read the reviews</a>
+</div>
+<div ng-if="!$ctrl.game.aggregated_rating" class="div-table-cell">
+    <p>N/A</p>
+</div>
+<div ng-if="$ctrl.game.rating" class="div-table-cell">
+    <p>{{$ctrl.game.rating | number: 2}}</p>
+</div>
+<div ng-if="!$ctrl.game.rating" class="div-table-cell">
+    <p>N/A</p>
+</div>
+<div ng-if="($ctrl.game.aggregated_rating >= $ctrl.target) || (!$ctrl.game.aggregated_rating && $ctrl.game.rating >= $ctrl.target)" class="div-table-cell">
+    <p>BUY!!</p>
+</div>
+<div ng-if="($ctrl.game.aggregated_rating < $ctrl.target) || (!$ctrl.game.aggregated_rating && $ctrl.game.rating < $ctrl.target)" class="div-table-cell">
+    <p>DON'T BUY!!</p>
+</div>
+<div ng-if="!$ctrl.game.rating && !$ctrl.game.aggregated_rating" class="div-table-cell">
+    <p>No Verdict</p>
+</div>
+<div ng-if="$ctrl.game.cover.cloudinary_id" class="div-table-cell">
+    <img class="img-responsive" ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{$ctrl.game.cover.cloudinary_id}}" />
+</div>
+<div ng-if="!$ctrl.game.cover.cloudinary_id" class="div-table-cell">
+    <p>NO IMAGE AVAILABLE</p>
+</div>
+
+<div ng-if="($ctrl.game.aggregated_rating >= $ctrl.target) || (!$ctrl.game.aggregated_rating && $ctrl.game.rating >= $ctrl.target)" class = "div-table-cell">
+    <div ng-repeat="releaseDate in $ctrl.game.release_dates | filter: {platform : 6} | limitTo:1">
+        <div ng-if="$ctrl.rightNow < releaseDate.date">
+            <p>NOT RELEASED ON PC YET!!</p>
+            <div ng-repeat="steam in $ctrl.steamList | filter:$ctrl.game.name:true" ng-if="$first">
+                <div ng-if="$ctrl.game.name === steam.name">
+                    <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Pre-order on Steam</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-repeat="altName in $ctrl.game.alternative_names">
+        <div ng-repeat="steam in $ctrl.steamList | filter:altName.name:true" ng-if="$first">
+            <div ng-if="altName.name === steam.name">
+                <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on Steam</a>
+            </div>
+        </div>
+    </div>
+    <div ng-repeat="releaseDate in $ctrl.game.release_dates | filter: {platform : 6} | limitTo:1" >
+        <div ng-if="$ctrl.rightNow > releaseDate.date">
+            <div ng-repeat="steam in $ctrl.steamList | filter:$ctrl.game.name:true" ng-if="$first">
+                <div ng-if="$ctrl.game.name === steam.name">
+                    <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on Steam</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="div-table-cell" ng-if= "($ctrl.game.aggregated_rating < $ctrl.target) || (!$ctrl.game.aggregated_rating && $ctrl.game.rating < $ctrl.target)">
+    <p>Press rating or player rating was too low</p>
+</div>
+<div ng-if="!$ctrl.game.rating && !$ctrl.game.aggregated_rating" class="div-table-cell">
+    <p>No review scores available</p>
+</div>

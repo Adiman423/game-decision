@@ -1,13 +1,23 @@
 node_modules/
-steamList.json
 lib/
-steam.html
 .bowerrc
 .bowerrc~
-js/steamList.json
-spec/igdb_api.json
-spec/steamList.json
-spec/api.json
+# Combined CSS file
+css/combinedStyle.css
+# Angular library (non-minified)
+js/angular.js
+# Minified js files
+js/angular.min.js
+js/bootstrap.min.js
+js/jquery-3.1.1.min.js
 js/gameapp.min.js
+js/gameSearchComponent.min.js
+# minified css files
+css/style.min.css
+css/bootstrap.min.css
+# Recent releases JS files (already in recent_releases branch)
+js/recentReleases.js
+js/releaseComponent.js
 js/recentReleases.min.js
 js/releaseComponent.min.js
+js/gameapp.min.js

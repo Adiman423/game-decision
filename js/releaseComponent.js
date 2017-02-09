@@ -11,6 +11,7 @@ angular.module('gameJudgement').component('releases',{
       steamList : '<',
       target : '<',
       steam : '<',
-      rightNow : '<'
+      rightNow : '<',
+      threeMonthsAgo : '<'
   }
 });

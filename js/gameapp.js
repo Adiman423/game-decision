@@ -1,16 +1,15 @@
 /*
-* This code was adapted from a tutorial written by Adam Labi (AKA Adamcadaver) which can be found below:
+* This code was adapted from a tutorial written by adamcadaver which can be found below:
 * https://github.com/adamcadaver/getting-started-web-dev-js/blob/master/STEPS.md
 */
-
-
+var timeInMs = Date.now();
 // A request to the Internet Game Database (IGDB) API for game data
 var igdb_api = "https://igdbcom-internet-game-database-v1.p.mashape.com/games/";
 igdb_api += "?filter%5Brelease_dates.platform%5D%5Beq%5D=6";
 
 // We shall fetch the game name, press rating, IGDB user rating, release
-igdb_api += "?fields=name%2crating%2caggregated_rating%2crelease_dates.platform"
-+ "%2ccover.cloudinary_id&limit=10&offset=0%3Adesc&search=";
+igdb_api += "&fields=name%2crating%2caggregated_rating%2crelease_dates"
++ "%2curl%2calternative_names%2ccover.cloudinary_id&limit=10&offset=0%3Adesc&search=";
 
 
 /* Check for a phone running Internet Explorer 10
@@ -27,12 +26,14 @@ if (navigator.userAgent.match(/IEMobile\/10\.0/)){
 }
 
 // the start of our gameSearch module 
-angular.module('gameJudgement',[])
-.controller('gameSearchController', ['$http','$scope', function ($http, $scope){
+var gameSearchApp = angular.module('gameJudgement',[]);
+gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $scope){
   
-  $scope.games = {};
-  $scope.steamList = [];
-  $http.defaults.headers.common['X-Mashape-Key'] = 'my_IGDB_API_Key';
+  var searchctrl = this;
+  searchctrl.rightNow = timeInMs;
+  searchctrl.games = {};
+  searchctrl.steamList = [];
+  $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
   
   //take the user's entry and parse it as an int
   $scope.target= parseInt(document.getElementById('target').value,10);
@@ -42,53 +43,73 @@ angular.module('gameJudgement',[])
   }
   
   function gameNameCleaner(){
-      for(var i = 0; i < $scope.steamList.length; i++){
+    /* A function whose purpose is
+    Compare the game names from the internet game database (IGDB) and the Steam store. 
+    Compare them and if they are close enough to being a match,
+      Overwrite the game name from IGDB with the correct name from the steam store. 
+    */
+    
+      for(var i = 0; i < searchctrl.steamList.length; i++){
         
-        for(var j = 0; j < $scope.games.length; j++){
+        for(var j = 0; j < searchctrl.games.length; j++){
           
-          if ( $scope.games[j]["name"].toLowerCase() == $scope.steamList[i]["name"].toLowerCase()){
+          if ( searchctrl.games[j]["name"].toLowerCase() == searchctrl.steamList[i]["name"].toLowerCase()){
             
-            $scope.games[j]["name"] = $scope.steamList[i]["name"];
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
+          }
+          else if ( searchctrl.games[j]["name"].toLowerCase() == searchctrl.steamList[i]["name"].trim().toLowerCase()){
+            
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if ( $scope.games[j]["name"].replace(": "," ").toLowerCase() === $scope.steamList[i]["name"].toLowerCase()){
+          else if ( searchctrl.games[j]["name"].replace(": "," ").toLowerCase() === searchctrl.steamList[i]["name"].toLowerCase()){
             
-            $scope.games[j]["name"] = $scope.steamList[i]["name"];
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if ($scope.games[j]["name"].replace(": "," - ").toLowerCase() === $scope.steamList[i]["name"].toLowerCase()){
+          else if (searchctrl.games[j]["name"].replace(": "," - ").toLowerCase() === searchctrl.steamList[i]["name"].toLowerCase()){
             
-            $scope.games[j]["name"] = $scope.steamList[i]["name"];
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if ($scope.games[j]["name"].replace("and","&") == $scope.steamList[i]["name"]){
+          else if (searchctrl.games[j]["name"].replace("and","&") == searchctrl.steamList[i]["name"]){
             
-            $scope.games[j]["name"] = $scope.steamList[i]["name"];
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if ($scope.steamList[i]["name"].replace("_"," ") === $scope.games[j]["name"]){
+          else if (searchctrl.steamList[i]["name"].replace("_"," ") === searchctrl.games[j]["name"]){
             
-            $scope.games[j]["name"] = $scope.steamList[i]["name"];
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if ($scope.steamList[i]["name"].replace("®","") == $scope.games[j]["name"]){
+          else if (searchctrl.steamList[i]["name"].replace("®","").replace("\u2122","").toLowerCase() == searchctrl.games[j]["name"].toLowerCase()){
             
-            $scope.games[j]["name"] = $scope.steamList[i]["name"];
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if ($scope.steamList[i]["name"].replace("\u2122","").toLowerCase() == $scope.games[j]["name"].toLowerCase()){
+          else if (searchctrl.steamList[i]["name"].replace("®","").toLowerCase() == searchctrl.games[j]["name"].toLowerCase()){
             
-            $scope.games[j]["name"] = $scope.steamList[i]["name"];
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if ($scope.steamList[i]["name"].replace("\u2122","").toLowerCase() == $scope.games[j]["name"].replace(": "," ").toLowerCase()){
+          else if (searchctrl.steamList[i]["name"].replace("\u2122","").toLowerCase() == searchctrl.games[j]["name"].toLowerCase()){
             
-            $scope.games[j]["name"] = $scope.steamList[i]["name"];
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if ( $scope.games[j]["name"].toUpperCase() == $scope.steamList[i]["name"]){
+          else if (searchctrl.steamList[i]["name"].replace("\u2122","").toLowerCase().trim() == searchctrl.games[j]["name"].toLowerCase()){
+            
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
+          }
+          
+          else if (searchctrl.steamList[i]["name"].replace("\u2122","").toLowerCase() == searchctrl.games[j]["name"].replace(": "," ").toLowerCase()){
+            
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
+          }
+          
+          else if ( searchctrl.games[j]["name"].toUpperCase() == searchctrl.steamList[i]["name"]){
            
-            $scope.games[j]["name"] = $scope.steamList[i]["name"];
+            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
         }
       }
@@ -97,40 +118,94 @@ angular.module('gameJudgement',[])
    $http.get('/steamList.json')
     .success(function(data, status, headers, config){
       
-      $scope.steamList = data;
+      searchctrl.steamList = data;
+      
       gameNameCleaner();
-   });
+    });
+   
+  var clickCounter = 0;
   
   $scope.search = function (search){
     
-    /* request the list of games on steam from the JSON file on the node server
-    *  and store it in $scope.steamList
-    */
+    clickCounter++;
+
+    var formButtons = document.getElementById('form_buttons');
+    
+    if(clickCounter >= 1){
+      formButtons.innerHTML= '<a class="btn btn-primary" href="/">Start Over</a>';
+    }
+    
+    var invalidGameName = document.getElementById('invalidGameName');
+    search = document.getElementById('search').value;
+    var isAlphaNumeric = function(str){
+      // a to function check if the user only entered letters or numbers in their search query
+      /*
+      * Adapted from: 
+      * http://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
+      */
+      var code, i, len;
+      
+      for( i = 0, len = str.length; i < len; i++){
+        code = str.charCodeAt(i);
+        if(!(code > 47 && code < 58) && //numeric
+        !(code > 64 && code < 91 ) && // uppercase letters
+        !(code > 96 && code < 123) && // lowercase letters
+        // foreign language characters
+        !(code >= 128 && code <= 155) && 
+        !(code == 157) && 
+        !(code >= 160 && code <= 165) &&
+        !(code >= 181 && code <= 183) &&
+        !(code == 198 && code == 199) &&
+        !(code >= 208 && code <= 212) &&
+        !(code >= 214 && code <= 216) &&
+        !(code >= 224 && code <= 229) &&
+        !(code >= 233 && code <= 237) &&
+        !(code == 32)){
+          
+          return false;
+        }
+      }
+      return true;
+    };
+    
+    if( isAlphaNumeric(search) == false || search.length > 140){
+      
+      invalidGameName.innerHTML = "The game name you entered was too long or invalid.";
+      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
+      return;
+    }
+    
+    
     $scope.target= parseInt(document.getElementById('target').value,10);
+    
+    var invalidNumber = document.getElementById('invalidNumber');
+    if (($scope.target < 0 ||$scope.target >= 101  ) || isNaN($scope.target )){
+      
+      invalidNumber.innerHTML = "Your threshold must be between 1 and 100";
+      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
+      return;
+    }
+    
     if (!$scope.target){
       $scope.target = 75;
     }
     
     igdb_api += document.getElementById('search').value;
-    /* A function whose purpose is
-    Compare the game names from the internet game database (IGDB) and the Steam store. 
-    Compare them and if they are close enough to being a match,
-      Overwrite the game name from IGDB with the correct name from the steam store. 
-    */
-  
+    
     // make a call to the IGDB API and authenticate with an API KEY
     $http.get(igdb_api, {
       headers: {
-        'X-Mashape-Key': 'my_IGDB_API_Key',
+        'X-Mashape-Key': 'MY_IGDB_API_KEY',
         'Accept' : 'application/json',
       }
       
     // capture the response to the IGDB request in $scope.data
     // this contains the list of results from the search based on what the user entered
     }).success(function(data, status, headers, config){
-      
-      $scope.games = data;
-      gameNameCleaner();
+
+        searchctrl.games = data;
+        gameNameCleaner();
     });
+    
   };
 }]);

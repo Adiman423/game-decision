@@ -19,9 +19,11 @@ module.exports = function(config) {
       'node_modules/angular-mocks/angular-mocks.js',
       'node_modules/requirejs/require.js',
       'js/gameapp.js',
+      'js/gameSearchComponent.js',
       'js/recentReleases.js',
       'js/releaseComponent.js',
-      {pattern: "spec/recentReleaseSpec.js", included: false},
+      {pattern: "spec/searchComponentSpec.js", included: false},
+      
       'test-main.js'
     ],
 
@@ -42,8 +44,8 @@ module.exports = function(config) {
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
     reporters: ['progress'],
-
-
+    
+    
     // web server port
     port: process.env.PORT,
 
@@ -63,7 +65,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
 
     // Continuous Integration mode

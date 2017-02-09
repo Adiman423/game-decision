@@ -35,16 +35,6 @@ var paths = {
 
 };
 
-gulp.task('minify-css', function(){
-   var options = {
-      preserveComments: 'all'  
-    };
-   return gulp.src(paths.cssToUglify)
-    .pipe(cleanCSS({compatibility: 'ie9'}))
-    .pipe(rename({suffix:'.min'}))
-    .pipe(gulp.dest('css/'));
-});
-
 gulp.task('compress', function(cb){
     
     var options = {
@@ -66,6 +56,17 @@ gulp.task('concat', function(){
    .pipe(concat('gameJudgement.js'))
    .pipe(gulp.dest('js/'));
 });
+
+gulp.task('minify-css', function(){
+   var options = {
+      preserveComments: 'all'  
+    };
+   return gulp.src(paths.cssToUglify)
+    .pipe(cleanCSS({compatibility: 'ie9'}))
+    .pipe(rename({suffix:'.min'}))
+    .pipe(gulp.dest('css/'));
+});
+
 
 gulp.task('concat-css', function(cb) {
     return gulp.src(paths.cssToConcat)
