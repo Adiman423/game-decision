@@ -599,11 +599,6 @@ describe('gameSearchCtrl',function(){
         // foreign language characters
         !(code >= 128 && code <= 155) && 
         !(code == 157) && 
-        !(code == 58) &&
-        !(code == 38) &&
-        !(code == 39) &&
-        !(code == 95) &&
-        !(code == 45) &&
         !(code >= 160 && code <= 165) &&
         !(code >= 181 && code <= 183) &&
         !(code == 198 && code == 199) &&
@@ -611,6 +606,11 @@ describe('gameSearchCtrl',function(){
         !(code >= 214 && code <= 216) &&
         !(code >= 224 && code <= 229) &&
         !(code >= 233 && code <= 237) &&
+        !(code == 58) && // colon
+        !(code == 38) && // ampersand
+        !(code == 39) && // single quote
+        !(code == 95) && // underscore
+        !(code == 45) && // hyphen
         !(code == 32)){
           
           return false;
