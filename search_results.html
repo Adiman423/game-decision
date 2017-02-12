@@ -35,15 +35,17 @@
         <div ng-if="$ctrl.rightNow < releaseDate.date">
             <p>NOT RELEASED ON PC YET!!</p>
             <div ng-repeat="steam in $ctrl.steamList | filter:$ctrl.game.name:true | limitTo : 1">
-                <div ng-if="$ctrl.game.name === steam.name">
+                <div id ="steamLink" ng-if="$ctrl.game.name === steam.name">
                     <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Pre-order on Steam</a>
                 </div>
             </div>
         </div>
     </div>
     <div ng-repeat="altName in $ctrl.game.alternative_names">
+    
         <div ng-repeat="steam in $ctrl.steamList | filter:altName.name:true | limitTo : 1">
-            <div ng-if="altName.name === steam.name">
+            <div id="altNameLink" ng-if="altName.name === steam.name">
+
                 <a ng-href="http://store.steampowered.com/app/{{steam.appid}}" target="_blank">Buy on Steam</a>
             </div>
         </div>

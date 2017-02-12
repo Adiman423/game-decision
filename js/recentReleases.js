@@ -121,10 +121,24 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
     
     var formButtons = document.getElementById('form_buttons');
     
-    $scope.target = parseInt(document.getElementById('target').value,10);
+    var target = document.getElementById('target').value;
     
+    var numbers = /^[0-9]+$/;
     var invalidNumber = document.getElementById('invalidNumber');
-    if (($scope.target < 1 ||$scope.target >= 101  ) || isNaN($scope.target ) ){
+    
+    if(!target.match(numbers) && target.length != 0){
+      invalidNumber.innerHTML = "You did not type in a number.";
+      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
+      return;
+    }
+    
+    $scope.target = parseInt(target,10);
+    
+    if (!$scope.target){
+      $scope.target = 75;
+    }
+    
+    if (($scope.target < 0) ||($scope.target >= 101)){
       
       invalidNumber.innerHTML = "Your threshold must be between 1 and 100";
       formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
@@ -135,13 +149,9 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
     
     if (search.value.length > 0){
       
-    invalidGameName.innerHTML = search.value.length > 0 && clickCounter >= 1 ? "Game name is not needed. Please leave it blank" : "";
+    invalidGameName.innerHTML = search.value.length > 0 && clickCounter >= 1 ? "Game name is not needed for Recent Releases. Please leave it blank" : "";
       formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
       return;
-    }
-    
-    if (!$scope.target){
-      $scope.target = 75;
     }
     
     if (clickCounter >= 1){

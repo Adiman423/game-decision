@@ -418,7 +418,8 @@ describe('gameSearchCtrl',function(){
       "width": 650,
       "height": 926
     }
-  }
+  },
+  {"id":13171,"name":"Read Only Memories","url":"https://www.igdb.com/games/read-only-memories","rating":99.2611637639798,"aggregated_rating":81.6666666666667,"release_dates":[{"category":0,"platform":72,"date":1405209600000,"region":8,"human":"2014-Jul-13","y":2014,"m":7},{"category":0,"platform":6,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":14,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":3,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":92,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":48,"date":1484611200000,"region":8,"human":"2017-Jan-17","y":2017,"m":1},{"category":2,"platform":46,"date":1514678400000,"region":8,"human":"2017","y":2017,"m":12}],"alternative_names":[{"name":"2064: Read Only Memories","comment":"Updated rerelease"},{"name":"Read Only Memories: Type-M","comment":"Mobile release"}],"cover":{"cloudinary_id":"vxkifkekdswgaeoa3agm"}}
     ];
     
     var steamArray = [
@@ -463,10 +464,12 @@ describe('gameSearchCtrl',function(){
 			{
 				"appid": 271944,
 				"name": " Dark Souls\u2122 II Crown of the Ivory King "
+			},
+			{
+				"appid": 330820,
+				"name": "2064: Read Only Memories"
 			}
     ];
-    
-    console.log(steamArray.length);
     
     beforeEach(angular.mock.module('gameJudgement'));
     beforeEach(inject(function($injector){
@@ -584,19 +587,23 @@ describe('gameSearchCtrl',function(){
       * Adapted from: 
       * http://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
       */
-        isAlphaNumeric = function(str){
+      isAlphaNumeric = function(str){
       // a to function check if the user only entered letters or numbers in their search query
       var code, i, len;
       
       for( i = 0, len = str.length; i < len; i++){
         code = str.charCodeAt(i);
-        console.log(code);
         if(!(code > 47 && code < 58) && //numeric
         !(code > 64 && code < 91 ) && // uppercase letters
         !(code > 96 && code < 123) && // lowercase letters
         // foreign language characters
         !(code >= 128 && code <= 155) && 
         !(code == 157) && 
+        !(code == 58) &&
+        !(code == 38) &&
+        !(code == 39) &&
+        !(code == 95) &&
+        !(code == 45) &&
         !(code >= 160 && code <= 165) &&
         !(code >= 181 && code <= 183) &&
         !(code == 198 && code == 199) &&
@@ -611,6 +618,45 @@ describe('gameSearchCtrl',function(){
       }
       return true;
     };
+    
+      altNameChecker = function(){
+      
+        var counter = 0;
+      
+        for (var i = 0; i < $scope.steamList.data.length; i++){
+          
+          for (var j = 0; j < $scope.games.data.length; j++){
+              
+            if( ($scope.games.data[j].alternative_names != null)){
+            
+              for(var k = 0; k < $scope.games.data[j].alternative_names.length; k++){
+                
+                if($scope.games.data[j].alternative_names[k].name == $scope.steamList.data[i]["name"]){
+                  counter++;
+                }
+              }
+            }
+          }
+        }
+        return counter;
+      };
+      
+        var targetField = "45";
+        var numbers = /^[0-9]+$/;
+        var target;
+        targetVerifier = function(){
+            if(!targetField.match(numbers) && targetField.length != 0){
+              return false;
+            }
+            else{
+              target = parseInt(targetField,10);
+                if ((targetField < 0) ||(targetField >= 101)){
+
+                  return false;
+                }
+            }
+            return true;
+        };
     }));
     
     it("Should be true if the request for search results sent by the user was sent", function() {
@@ -743,5 +789,14 @@ describe('gameSearchCtrl',function(){
     it("Should be true if a game does not contain a valid character", function(){
       searchQuery = "Rocket League";
       expect(isAlphaNumeric(searchQuery)).toBe(true);
+    });
+    
+    it("Should be true if a game's alternative name matches a steam Name", function(){
+      
+      expect(altNameChecker() >= 1).toBe(true);
+    });
+    
+    it("Should be true if targetVerifier returns true",function() {
+      expect(targetVerifier()).toBe(true);  
     });
 });

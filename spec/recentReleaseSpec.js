@@ -269,12 +269,44 @@ describe('recentReleasesCtrl',function(){
             return $controller('recentReleasesCtrl',{'$scope' : $scope});
         };
         var timeInMs = Date.now();
-        var target = "foo";
+        var targetField = "45";
+        var numbers = /^[0-9]+$/;
+        var target;
         targetVerifier = function(){
-            if (isNaN(target)){
-              return true;
+            if(!targetField.match(numbers) && targetField.length != 0){
+              return false;
             }
+            else{
+              target = parseInt(targetField,10);
+                if ((targetField < 0) ||(targetField >= 101)){
+
+                  return false;
+                }
+            }
+            return true;
         };
+        
+      altNameChecker = function(){
+      
+        var counter = 0;
+      
+        for (var i = 0; i < $scope.steamList.data.length; i++){
+          
+          for (var j = 0; j < $scope.newReleases.data.length; j++){
+              
+            if( ($scope.newReleases.data[j].alternative_names != null)){
+            
+              for(var k = 0; k < $scope.newReleases.data[j].alternative_names.length; k++){
+                
+                if($scope.newReleases.data[j].alternative_names[k].name == $scope.steamList.data[i]["name"]){
+                  counter++;
+                }
+              }
+            }
+          }
+        }
+        return counter;
+      };
     }));
     
     it("Should be true if the request for recent releases was sent", function(){
@@ -447,5 +479,10 @@ describe('recentReleasesCtrl',function(){
     it("Should be true if the user entered a queryString", function() {
        
        expect(queryString.length >= 1).toBe(true); 
+    });
+    
+    it("Should be true if a game's alternative name matches a steam Name", function(){
+      
+      expect(altNameChecker() > 0).toBe(true);
     });
 });

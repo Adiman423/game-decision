@@ -42,6 +42,33 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
     $scope.target = 75;
   }
   
+  function altNameChecker(){
+    
+    var counter = 0;
+    
+    for (var i = 0; i < searchctrl.steamList.length; i++){
+      
+      for (var j = 0; j < searchctrl.games.length; j++){
+          
+        if( (searchctrl.games[j].alternative_names != null)){
+        
+          for(var k = 0; k < searchctrl.games[j].alternative_names.length; k++){
+            
+            if(searchctrl.games[j].alternative_names[k].name == searchctrl.steamList[i]["name"]){
+              counter++;
+              console.log("matched an alt name");
+            }
+          }
+        }
+      }
+    }
+    if (counter == 0){
+      
+      console.log("no match found");
+    }
+    return counter;
+  }
+  
   function gameNameCleaner(){
     /* A function whose purpose is
     Compare the game names from the internet game database (IGDB) and the Steam store. 
@@ -77,9 +104,11 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
             searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if (searchctrl.steamList[i]["name"].replace("_"," ") === searchctrl.games[j]["name"]){
+          else if ((searchctrl.steamList[i]["name"].replace("_"," ") === searchctrl.games[j]["name"])
+          && altNameChecker() == 0){
             
-            searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
+              searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
+
           }
           
           else if (searchctrl.steamList[i]["name"].replace("®","").replace("\u2122","").toLowerCase() == searchctrl.games[j]["name"].toLowerCase()){
@@ -153,6 +182,11 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
         // foreign language characters
         !(code >= 128 && code <= 155) && 
         !(code == 157) && 
+        !(code == 58) &&
+        !(code == 38) &&
+        !(code == 39) &&
+        !(code == 95) &&
+        !(code == 45) &&
         !(code >= 160 && code <= 165) &&
         !(code >= 181 && code <= 183) &&
         !(code == 198 && code == 199) &&
@@ -175,19 +209,37 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
       return;
     }
     
-    
-    $scope.target= parseInt(document.getElementById('target').value,10);
-    
-    var invalidNumber = document.getElementById('invalidNumber');
-    if (($scope.target < 0 ||$scope.target >= 101  ) || isNaN($scope.target )){
-      
-      invalidNumber.innerHTML = "Your threshold must be between 1 and 100";
+    if(search.length == 0){
+      invalidGameName.innerHTML = "You did not enter a game to search for!";
       formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
       return;
     }
     
+    var target = document.getElementById('target').value;
+    /*
+    Adapted from a post on W3Resource: 
+    http://www.w3resource.com/javascript/form/all-numbers.php
+    */
+    var numbers = /^[0-9]+$/;
+    var invalidNumber = document.getElementById('invalidNumber');
+    
+    if(!target.match(numbers) && target.length != 0){
+      invalidNumber.innerHTML = "You did not type in a number.";
+      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
+      return;
+    }
+    
+    $scope.target = parseInt(target,10);
+    
     if (!$scope.target){
       $scope.target = 75;
+    }
+    
+    if (($scope.target < 0) ||($scope.target >= 101)){
+      
+      invalidNumber.innerHTML = "Your threshold must be between 1 and 100";
+      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
+      return;
     }
     
     igdb_api += document.getElementById('search').value;
