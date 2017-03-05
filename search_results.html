@@ -3,7 +3,7 @@
 </div>
 <div ng-if="$ctrl.game.aggregated_rating" class="div-table-cell">
     <p>{{$ctrl.game.aggregated_rating | number: 2}}</p>
-    <a ng-href="{{ctrl.game.url}}/reviews" target="_blank">Read the reviews</a>
+    <a ng-href="{{$ctrl.game.url}}/reviews" target="_blank">Read the reviews</a>
 </div>
 <div ng-if="!$ctrl.game.aggregated_rating" class="div-table-cell">
     <p>N/A</p>
