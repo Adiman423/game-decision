@@ -57,113 +57,94 @@ https://codepen.io/johnchristopherjones/post/how-do-i-use-the-steam-api-in-my-we
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("DLC Quest") !== -1){
         continue;
       }
-      
       else if(gameList[i]["name"].indexOf("PEGI") !== -1){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if((gameList[i]["name"].indexOf(" Trailer") !== -1) || (gameList[i]["name"].indexOf("trailer") !== -1)){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf(" Teaser") !== -1){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("Robotpencil") !== -1){
 
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("Multiplayer") !== -1){
 
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("Starter Pack") !== -1){
 
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("Season Pass") !== -1){
 
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("Editor") !== -1){
 
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf(" OST") !== -1){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf(" Modeling") !== -1){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("CD Key") !== -1){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("- Demo") !== -1){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf(" Demo") !== -1){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf(" Gameplay") !== -1){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("Artbook") !== -1){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("Dedicated Server") !== -1){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf(" Beta") !== -1){
         
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf(" Activation") !== -1){
         
         gameList.splice(i,1);
@@ -250,7 +231,6 @@ https://codepen.io/johnchristopherjones/post/how-do-i-use-the-steam-api-in-my-we
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("Drawing Course") !== -1){
         
         gameList.splice(i,1);
@@ -261,7 +241,6 @@ https://codepen.io/johnchristopherjones/post/how-do-i-use-the-steam-api-in-my-we
         gameList.splice(i,1);
         i--;
       }
-      
       else if(gameList[i]["name"].indexOf("Uplay") !== -1){
         
         gameList.splice(i,1);
@@ -293,14 +272,11 @@ https://codepen.io/johnchristopherjones/post/how-do-i-use-the-steam-api-in-my-we
       
       if(err){
         throw err;
-        
       }
       console.log("we have fetched a new game list");
     });
     return gameList;
-  });  
-
-
+  });
 });
 
 // writes to the command line what PORT our app is using
