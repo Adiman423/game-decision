@@ -41,32 +41,36 @@
                 <div class="container-fluid"> 
                     <h1 id="site-title"><a href="/"><b>GameJudgement</b></a></h1>
                     <p id="slogan">Find out if you should buy that game</p>
-                    <p>Notes: For recent releases, leave the name box blank, type in a threshold and click "recent releases".</p>
-                    <br />
-                    <p>Smartphone users: turn your phone sideways/to a landscape orientation.</p>
-                    <br />
-                    <p>Threshold is the target score that shall be used to determine if a game is worth buying or not. If you decide not to set the threshold then by default it's set to 75.</p>
-                    <form class="form-horizontal">
-                    <b id="invalidNumber"></b>
-                    <b id="invalidGameName"></b>
+                    <p><u><b>Notes:</b></u></p>
+                    <ul>
+                        <li>1) For recent releases, leave the name box blank, type in a threshold and click "recent releases". </li>
+                        <li>2) Smartphone users: turn your phone sideways/to a landscape orientation.</li>
+                        <li>3) Threshold is the target score that shall be used to determine if a game is worth buying or not. If you decide not to set the threshold then by default it's set to 75.</li>
+                        <li>4) Search results and recent releases are limited to PC games(for now)</li>
+                    </ul>
+                    <form name="gameForm" ng-init="game=''" class="form-horizontal">
                         <!--A form for the user to type in their search query for their game-->
                         <div class="form-group">
                             <label>Game name:</label>
-                            <p><input id="search" type="text" placeholder="game" name="search"/></p>
+                            <p><input id="game" ng-model="game" type="text" ng-pattern="/^[a-zA-Z0-9 ]+$/" placeholder="game" name="game" required/></p>
+                            <p ng-if="gameForm.game.$invalid"><b>Game name is invalid or not typed in. Numbers and letters only for game searches!</b></p>
                         </div>
                         <div class="form-group">
                             <!--This is the target score which is used to determine if a game is worth buying(which is 75 by default). More on this down below-->
                             <label>Threshold (between 1 and 100 please):</label>
-                            <p><input id="target" type="text" placeholder="target" name="target"/></p>
-
+                            <p><input id="target" type="number" placeholder="target" ng-model="target" name="target" min="1" max="100" /></p>
+                            <p ng-if="gameForm.target.$invalid"><b>Your threshold must be between 1 and 100</b></p>
                         </div>
-                        <div id="form_buttons">
-                            <button type="submit" class="btn btn-primary" ng-click="search(search)">
+                        <div id="form_buttons" ng-if="searchctrl.clickCounter == 0 && ctrl.clickCounter == 0" >
+                            <button ng-disabled="(gameForm.game.$invalid && gameForm.game.$pristine) || gameForm.target.$invalid" type="submit" class="btn btn-primary" ng-click="search(game)">
                                 <p>Search</p>    
                             </button>
-                            <button  type="submit" class="btn btn-primary" ng-click="getReleases()">
+                            <button ng-disabled="game.length > 0 || gameForm.target.$invalid" type="submit" class="btn btn-primary" ng-click="getReleases()">
                                 Recent releases
                             </button>
+                        </div>
+                        <div ng-if="searchctrl.clickCounter >= 1 || ctrl.clickCounter >= 1">
+                            <a class="btn btn-primary" href="/">Start Over</a>
                         </div>
                     </form>
                 </div>

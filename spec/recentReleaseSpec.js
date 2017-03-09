@@ -269,22 +269,7 @@ describe('recentReleasesCtrl',function(){
             return $controller('recentReleasesCtrl',{'$scope' : $scope});
         };
         var timeInMs = Date.now();
-        var targetField = "45";
-        var numbers = /^[0-9]+$/;
-        var target;
-        targetVerifier = function(){
-            if(!targetField.match(numbers) && targetField.length != 0){
-              return false;
-            }
-            else{
-              target = parseInt(targetField,10);
-                if ((targetField < 0) ||(targetField >= 101)){
-
-                  return false;
-                }
-            }
-            return true;
-        };
+        
         
       altNameChecker = function(){
       
@@ -338,8 +323,7 @@ describe('recentReleasesCtrl',function(){
     
     
     it("Should be true if the press rating >= 75", inject(function($http){
-
-        
+      
         expect($scope.newReleases.data[1].aggregated_rating >= 75).toBe(true);
     }));
     

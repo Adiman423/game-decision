@@ -111,51 +111,14 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
       releaseNameCleaner();
     });
     
-    var clickCounter = 0;
-    
+    ctrl.clickCounter = 0;
     
     $scope.getReleases = function(){
     
-    
-    clickCounter++;
-    
-    var formButtons = document.getElementById('form_buttons');
-    
-    var target = document.getElementById('target').value;
-    
-    var numbers = /^[0-9]+$/;
-    var invalidNumber = document.getElementById('invalidNumber');
-    
-    if(!target.match(numbers) && target.length != 0){
-      invalidNumber.innerHTML = "You did not type in a number.";
-      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
-      return;
-    }
-    
-    $scope.target = parseInt(target,10);
+    ctrl.clickCounter++;
     
     if (!$scope.target){
       $scope.target = 75;
-    }
-    
-    if (($scope.target < 0) ||($scope.target >= 101)){
-      
-      invalidNumber.innerHTML = "Your threshold must be between 1 and 100";
-      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
-      return;
-    }
-    
-    var invalidGameName = document.getElementById('invalidGameName');
-    
-    if (search.value.length > 0){
-      
-    invalidGameName.innerHTML = search.value.length > 0 && clickCounter >= 1 ? "Game name is not needed for Recent Releases. Please leave it blank" : "";
-      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
-      return;
-    }
-    
-    if (clickCounter >= 1){
-      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Start over</a>';
     }
     
     $http({

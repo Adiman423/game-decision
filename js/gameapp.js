@@ -35,12 +35,6 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
   searchctrl.steamList = [];
   $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
   
-  //take the user's entry and parse it as an int
-  $scope.target= parseInt(document.getElementById('target').value,10);
-  
-  if (!$scope.target){
-    $scope.target = 75;
-  }
   
   function altNameChecker(){
     
@@ -56,15 +50,10 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
             
             if(searchctrl.games[j].alternative_names[k].name == searchctrl.steamList[i]["name"]){
               counter++;
-              console.log("matched an alt name");
             }
           }
         }
       }
-    }
-    if (counter == 0){
-      
-      console.log("no match found");
     }
     return counter;
   }
@@ -151,98 +140,18 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
       
       gameNameCleaner();
     });
-   
-  var clickCounter = 0;
   
-  $scope.search = function (search){
-    
-    clickCounter++;
+  searchctrl.clickCounter = 0; 
+  
+  $scope.search = function (game){
+  searchctrl.clickCounter++;
+    game = document.getElementById('game').value;
 
-    var formButtons = document.getElementById('form_buttons');
-    
-    if(clickCounter >= 1){
-      formButtons.innerHTML= '<a class="btn btn-primary" href="/">Start Over</a>';
-    }
-    
-    var invalidGameName = document.getElementById('invalidGameName');
-    search = document.getElementById('search').value;
-    var isAlphaNumeric = function(str){
-      // a to function check if the user only entered letters or numbers in their search query
-      /*
-      * Adapted from: 
-      * http://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
-      */
-      var code, i, len;
-      
-      for( i = 0, len = str.length; i < len; i++){
-        code = str.charCodeAt(i);
-        if(!(code > 47 && code < 58) && //numeric
-        !(code > 64 && code < 91 ) && // uppercase letters
-        !(code > 96 && code < 123) && // lowercase letters
-        // foreign language characters
-        !(code >= 128 && code <= 155) && 
-        !(code == 157) && 
-        !(code >= 160 && code <= 165) &&
-        !(code >= 181 && code <= 183) &&
-        !(code == 198 && code == 199) &&
-        !(code >= 208 && code <= 212) &&
-        !(code >= 214 && code <= 216) &&
-        !(code >= 224 && code <= 229) &&
-        !(code >= 233 && code <= 237) &&
-        !(code == 58) && // colon
-        !(code == 38) && // ampersand
-        !(code == 39) && // single quote
-        !(code == 95) && // underscore
-        !(code == 45) && // hyphen
-        !(code == 32)){
-          
-          return false;
-        }
-      }
-      return true;
-    };
-    
-    if( isAlphaNumeric(search) == false || search.length > 140){
-      
-      invalidGameName.innerHTML = "The game name you entered was too long or invalid.";
-      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
-      return;
-    }
-    
-    if(search.length == 0){
-      invalidGameName.innerHTML = "You did not enter a game to search for!";
-      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
-      return;
-    }
-    
-    var target = document.getElementById('target').value;
-    /*
-    Adapted from a post on W3Resource: 
-    http://www.w3resource.com/javascript/form/all-numbers.php
-    */
-    var numbers = /^[0-9]+$/;
-    var invalidNumber = document.getElementById('invalidNumber');
-    
-    if(!target.match(numbers) && target.length != 0){
-      invalidNumber.innerHTML = "You did not type in a number.";
-      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
-      return;
-    }
-    
-    $scope.target = parseInt(target,10);
-    
     if (!$scope.target){
       $scope.target = 75;
     }
     
-    if (($scope.target < 0) ||($scope.target >= 101)){
-      
-      invalidNumber.innerHTML = "Your threshold must be between 1 and 100";
-      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
-      return;
-    }
-    
-    igdb_api += document.getElementById('search').value;
+    igdb_api += document.getElementById('game').value;
     
     // make a call to the IGDB API and authenticate with an API KEY
     $http.get(igdb_api, {

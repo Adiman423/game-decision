@@ -587,37 +587,7 @@ describe('gameSearchCtrl',function(){
       * Adapted from: 
       * http://stackoverflow.com/questions/4434076/best-way-to-alphanumeric-check-in-javascript
       */
-      isAlphaNumeric = function(str){
-      // a to function check if the user only entered letters or numbers in their search query
-      var code, i, len;
       
-      for( i = 0, len = str.length; i < len; i++){
-        code = str.charCodeAt(i);
-        if(!(code > 47 && code < 58) && //numeric
-        !(code > 64 && code < 91 ) && // uppercase letters
-        !(code > 96 && code < 123) && // lowercase letters
-        // foreign language characters
-        !(code >= 128 && code <= 155) && 
-        !(code == 157) && 
-        !(code >= 160 && code <= 165) &&
-        !(code >= 181 && code <= 183) &&
-        !(code == 198 && code == 199) &&
-        !(code >= 208 && code <= 212) &&
-        !(code >= 214 && code <= 216) &&
-        !(code >= 224 && code <= 229) &&
-        !(code >= 233 && code <= 237) &&
-        !(code == 58) && // colon
-        !(code == 38) && // ampersand
-        !(code == 39) && // single quote
-        !(code == 95) && // underscore
-        !(code == 45) && // hyphen
-        !(code == 32)){
-          
-          return false;
-        }
-      }
-      return true;
-    };
     
       altNameChecker = function(){
       
@@ -641,21 +611,27 @@ describe('gameSearchCtrl',function(){
         return counter;
       };
       
-        var targetField = "45";
-        var numbers = /^[0-9]+$/;
+        var targetField = 45;
         var target;
         targetVerifier = function(){
-            if(!targetField.match(numbers) && targetField.length != 0){
+            if ((targetField < 0) ||(targetField >= 101)){
+
               return false;
             }
-            else{
-              target = parseInt(targetField,10);
-                if ((targetField < 0) ||(targetField >= 101)){
-
-                  return false;
-                }
+            else if(targetField >= 1 || targetField <= 100 ){
+              
+              return true;
             }
-            return true;
+        };
+        
+        isAlphaNumeric = function(queryString){
+            var expression = /^[a-zA-Z0-9 ]+$/;
+            if (queryString.match(expression)){
+              return true;
+            }
+            else{
+              return false;
+            }
         };
     }));
     
@@ -676,8 +652,7 @@ describe('gameSearchCtrl',function(){
     
     it("should be true if the press rating >= 75", function(){
       
-      expect($scope.games.data[0].aggregated_rating >= 75).toBe(true);  
-      
+      expect($scope.games.data[0].aggregated_rating >= 75).toBe(true);
     });
     
     it("Should be true if the press rating does not exist and the players' rating >= 75",function() {
