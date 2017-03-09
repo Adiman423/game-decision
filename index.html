@@ -49,7 +49,11 @@
                         <li>4) Search results and recent releases are limited to PC games(for now)</li>
                     </ul>
                     <form name="gameForm" ng-init="game=''" class="form-horizontal">
-                        <!--A form for the user to type in their search query for their game-->
+                        <!--A form for the user to type in their search query for their game
+                        
+                        Validation using solutions adapted from: 
+                        http://stackoverflow.com/questions/16263158/angularjs-prevent-form-submission-when-input-validation-fails
+                        -->
                         <div class="form-group">
                             <label>Game name:</label>
                             <p><input id="game" ng-model="game" type="text" ng-pattern="/^[a-zA-Z0-9 ]+$/" placeholder="game" name="game" required/></p>
