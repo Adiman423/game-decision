@@ -624,15 +624,6 @@ describe('gameSearchCtrl',function(){
             }
         };
         
-        isAlphaNumeric = function(queryString){
-            var expression = /^[a-zA-Z0-9 ]+$/;
-            if (queryString.match(expression)){
-              return true;
-            }
-            else{
-              return false;
-            }
-        };
     }));
     
     it("Should be true if the request for search results sent by the user was sent", function() {
