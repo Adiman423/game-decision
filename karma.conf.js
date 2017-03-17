@@ -24,6 +24,8 @@ module.exports = function(config) {
       'js/releaseComponent.js',
       {pattern: "spec/searchComponentSpec.js", included: false},
       {pattern: "spec/recentReleaseSpec.js", included: false},
+      
+
       'test-main.js'
     ],
 

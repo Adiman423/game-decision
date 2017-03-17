@@ -42,9 +42,8 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
     
     ctrl.rightNow = timeInMs;
     ctrl.threeMonthsAgo = threeMonthsAgo;
-    $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
     
-    function releaseNameCleaner(){
+    ctrl.releaseNameCleaner = function(){
       
       for(var i = 0; i < ctrl.steamList.length; i++){
         
@@ -99,16 +98,17 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
             
             ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
+          
         }
       }
-    }
+    };
     
     $http.get('/steamList.json')
     .success(function(data, status, headers, config){
       
       ctrl.steamList = data;
       
-      releaseNameCleaner();
+      ctrl.releaseNameCleaner();
     });
     
     ctrl.clickCounter = 0;
@@ -133,8 +133,7 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
       }).success(function(data, status, headers, config) {
 
           ctrl.newReleases = data;
-          releaseNameCleaner();
-         
+          ctrl.releaseNameCleaner();
       });
     };
 }]);

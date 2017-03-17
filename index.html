@@ -39,17 +39,14 @@
         <div ng-controller="gameSearchCtrl as searchctrl">
             <div ng-controller="recentReleasesCtrl as ctrl">
                 <div class="container-fluid"> 
-                    <h1 id="site-title"><a href="/"><b>GameJudgement</b></a></h1>
-                    <p></p>
-                    <img src="logo.jpeg"/>
+                    <h1 id="site-title"> GameJudgement</h1>
                     <p id="slogan">Find out if you should buy that game</p>
+                    <div id="notes">
                     <p><u><b>Notes:</b></u></p>
-                    <ul>
-                        <li>1) For recent releases, leave the name box blank, type in a threshold and click "recent releases". </li>
-                        <li>2) Smartphone users: turn your phone sideways/to a landscape orientation.</li>
-                        <li>3) Threshold is the target score that shall be used to determine if a game is worth buying or not. If you decide not to set the threshold then by default it's set to 75.</li>
-                        <li>4) Search results and recent releases are limited to PC games(for now)</li>
-                    </ul>
+                        <p>1) Smartphone users: turn your phone sideways/to a landscape orientation.<p>
+                        <p>2) Search results and recent releases are for PC games(for now)</p>
+                        <p>3) Target score is a review score (out of 100) that shall be used to determine if a game is worth buying. The default(if left blank) is 75</p>
+                    </div>
                     <form name="gameForm" ng-init="game=''" class="form-horizontal">
                         <!--A form for the user to type in their search query for their game
                         
@@ -61,11 +58,13 @@
                             <label>Game name:</label>
                             <p><input id="game" ng-model="game" type="text" ng-pattern="/^[a-zA-Z0-9 ]+$/" placeholder="game" name="game" required/></p>
                             <p ng-if="gameForm.game.$invalid"><b>Game name is invalid or not typed in. Numbers and letters only for game searches!</b></p>
+                            
                         </div>
                         <div class="form-group">
                             <!--This is the target score which is used to determine if a game is worth buying(which is 75 by default). More on this down below-->
-                            <label>Threshold (between 1 and 100 please):</label>
+                            <label>Target score (between 1 and 100 please):</label>
                             <p><input id="target" type="number" placeholder="target" ng-model="target" name="target" min="1" max="100" /></p>
+                            
                             <p ng-if="gameForm.target.$invalid"><b>Your threshold must be between 1 and 100</b></p>
                         </div>
                         <div id="form_buttons" ng-if="searchctrl.clickCounter == 0 && ctrl.clickCounter == 0" >
@@ -81,7 +80,7 @@
                         </div>
                     </form>
                 </div>
-                <h3 ng-if="searchctrl.games.length == 0">No results</h3>
+                
                 <div id="search-results-table" class="table-responsive" ng-if="searchctrl.games.length > 0">
                     <div class="div-table">
                         <div class="div-table-row">
@@ -106,10 +105,11 @@
                                 </div>
                             </div>
                             <search-results id="resultsRow" class="div-table-row" game="game" ng-repeat="game in searchctrl.games" right-now="searchctrl.rightNow" target="target" steam-list="searchctrl.steamList"></search-results>
+                            <h3 ng-if="searchctrl.games.length == 0 && searchctrl.clickCounter >= 1">No results</h3>
                         </div>
                     </div>
                 </div>
-                <h3 ng-if="ctrl.newReleases.length == 0">No results</h3>
+                
                 <div class="table-responsive" id="recent-releases-table" ng-if="ctrl.newReleases.length > 0">
                     <h3>Recent Releases</h3>
                     <div class="div-table">
@@ -137,12 +137,14 @@
                                 </div>
                                 <releases class="div-table-row" release="release" ng-repeat="release in ctrl.newReleases" right-now="ctrl.rightNow" three-months-ago="ctrl.threeMonthsAgo" steam-list="ctrl.steamList" target="target">
                                 </releases>
+                                <h3 ng-if="ctrl.newReleases.length == 0 && ctrl.clickCounter >= 1">No results</h3>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
         <div class="container-fluid">
             <p>Information was freely provided by <a href="http://www.igdb.com">IGDB.com</a></p>
             <p>

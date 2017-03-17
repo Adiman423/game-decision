@@ -31,12 +31,10 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
   
   var searchctrl = this;
   searchctrl.rightNow = timeInMs;
-  searchctrl.games = {};
+  searchctrl.games = [];
   searchctrl.steamList = [];
-  $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
   
-  
-  function altNameChecker(){
+  searchctrl.altNameChecker = function(){
     
     var counter = 0;
     
@@ -56,9 +54,9 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
       }
     }
     return counter;
-  }
+  };
   
-  function gameNameCleaner(){
+  searchctrl.gameNameCleaner = function(){
     /* A function whose purpose is
     Compare the game names from the internet game database (IGDB) and the Steam store. 
     Compare them and if they are close enough to being a match,
@@ -93,9 +91,7 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
             searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
           }
           
-          else if ((searchctrl.steamList[i]["name"].replace("_"," ") === searchctrl.games[j]["name"])
-          && altNameChecker() == 0){
-            
+          else if ((searchctrl.steamList[i]["name"].replace("_"," ") === searchctrl.games[j]["name"]) && searchctrl.altNameChecker() == 0){
               searchctrl.games[j]["name"] = searchctrl.steamList[i]["name"];
 
           }
@@ -131,14 +127,14 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
           }
         }
       }
-    }
+    };
   
    $http.get('/steamList.json')
     .success(function(data, status, headers, config){
       
       searchctrl.steamList = data;
       
-      gameNameCleaner();
+      searchctrl.gameNameCleaner();
     });
   
   searchctrl.clickCounter = 0; 
@@ -165,7 +161,7 @@ gameSearchApp.controller('gameSearchCtrl', ['$http','$scope', function ($http, $
     }).success(function(data, status, headers, config){
 
         searchctrl.games = data;
-        gameNameCleaner();
+        searchctrl.gameNameCleaner();
     });
     
   };
