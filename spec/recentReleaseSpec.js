@@ -1,9 +1,10 @@
 describe('recentReleasesCtrl',function(){
   
-  var ctrl, $controller, $httpBackend, $rootScope, createController, requestHandler ,releaseArray, steamList, $scope;
+  var ctrl, $controller, $httpBackend, requestHandler ,releaseArray, steamList, $scope;
   
-  beforeEach(angular.mock.module('gameJudgement'));
-  beforeEach(inject(function($injector){
+  beforeEach(module('gameJudgement'));
+  beforeEach(inject(function(_$controller_,$injector){
+    // Sample data similar to what the IGDB API might provide us with
     releaseArray = [
     {"id":359,"name":"Final Fantasy XV","url":"https://www.igdb.com/games/final-fantasy-xv","rating":79.9765608403094,"release_dates":[{"category":0,"platform":49,"date":1480377600000,"human":"2016-Nov-29","y":2016,"m":11},{"category":0,"platform":48,"date":1480377600000,"human":"2016-Nov-29","y":2016,"m":11},{"category":2,"platform":6,"date":1546214400000,"human":"2018","y":2018,"m":12}],"cover":{"cloudinary_id":"exzxitwgvhwzric1byej"}},
     {"id":13171,"name":"Read Only Memories","url":"https://www.igdb.com/games/read-only-memories","rating":99.2611637639798,"aggregated_rating":82.0,"release_dates":[{"category":0,"platform":72,"date":1405209600000,"region":8,"human":"2014-Jul-13","y":2014,"m":7},{"category":0,"platform":6,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":14,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":3,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":92,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":48,"date":1484611200000,"region":8,"human":"2017-Jan-17","y":2017,"m":1},{"category":2,"platform":46,"date":1514678400000,"region":8,"human":"2017","y":2017,"m":12}],"cover":{"cloudinary_id":"vxkifkekdswgaeoa3agm"}},
@@ -22,25 +23,27 @@ describe('recentReleasesCtrl',function(){
     ,{"id": 14675,"name": "Valkyria Chronicles","release_dates": [{"platform": 38},{"platform": 45}],"cover": {     "url": "//images.igdb.com/igdb/image/upload/t_thumb/zawtful22kx7cwhs2qhc.png","cloudinary_id":"zawtful22kx7cwhs2qhc","width": 582,"height": 1000}},
     {"id": 20341,"name": "Dark Souls II: Crown of the Ivory King", "aggregated_rating": 81.7142857142857, "release_dates": [{"platform": 6},{"platform": 9},{"platform": 12}]},
     {"id": 13171,"name": "Read Only Memories","rating": 99.2611637639798,"aggregated_rating": 82,"release_dates": [{"category": 0,"platform": 72,"date": 1405209600000,"region": 8, "human": "2014-Jul-13", "y": 2014, "m": 7 },{"category": 0, "platform": 6,"date": 1444089600000, "region": 8,"human": "2015-Oct-06","y": 2015,"m": 10},{"category": 0,"platform": 14,"date": 1444089600000,"region": 8, "human":"2015-Oct-06","y": 2015,"m": 10},{"category": 0,"platform": 3,"date": 1444089600000,"region": 8,    "human": "2015-Oct-06","y": 2015,"m": 10},{"category": 0,"platform": 92,"date": 1444089600000,    "region": 8,"human": "2015-Oct-06","y": 2015,"m": 10},{"category": 0,"platform": 48,"date": 148461120000, "region": 8,"human": "2017-Jan-17","y": 2017,"m":1},{"category": 2,"platform": 46,"date": 1514678400000,"region": 8,"human": "2017","y": 2017,"m": 12}],"alternative_names": [{"name": "2064: Read Only Memories","comment": "Updated rerelease"},{"name": "Read Only Memories: Type-M","comment": "Mobile release"}],"cover": {"url": "//images.igdb.com/igdb/image/upload/t_thumb/vxkifkekdswgaeoa3agm.png",      "cloudinary_id": "vxkifkekdswgaeoa3agm","width": 682,"height": 1080}}];
-    steamList = [{"appid": 413150,"name": "Stardew Valley"},
-    {"appid": 460920,"name": "STEEP"},
-    {"appid": 203630,"name": "Warlock - Master of the Arcane"},
-		{"appid": 298900,"name": "Space Hulk Deathwing"},
-		{"appid": 243470,"name": "Watch_Dogs"},
-		{"appid": 347290,"name": "Rise & Shine"},
-    {"appid": 220240,"name": "Far Cry® 3"},
-		{"appid": 271942,"name": "Dark Souls\u2122 II Crown of the Sunken King"},
-		{"appid": 294860,"name": "Valkyria Chronicles™"},
-		{"appid": 271944,"name": " DARK SOULS™ II Crown of the Ivory King "},
-		{"appid": 330820,"name": "2064: Read Only Memories"}
+    steamList = [
+      {"appid": 413150,"name": "Stardew Valley"},
+      {"appid": 460920,"name": "STEEP"},
+      {"appid": 203630,"name": "Warlock - Master of the Arcane"},
+  		{"appid": 298900,"name": "Space Hulk Deathwing"},
+  		{"appid": 243470,"name": "Watch_Dogs"},
+  		{"appid": 347290,"name": "Rise & Shine"},
+      {"appid": 220240,"name": "Far Cry® 3"},
+  		{"appid": 271942,"name": "Dark Souls\u2122 II Crown of the Sunken King"},
+  		{"appid": 294860,"name": "Valkyria Chronicles™"},
+  		{"appid": 271944,"name": " DARK SOULS™ II Crown of the Ivory King "},
+  		{"appid": 330820,"name": "2064: Read Only Memories"}
 		];  
 		
-    $controller = $injector.get('$controller');
-    $rootScope = $injector.get('$rootScope');
-    $scope = $rootScope.$new();
+    $controller = _$controller_;
+    $scope = {};
+    
+
     $httpBackend = $injector.get('$httpBackend');
     var steamListUrl = 'steamList.json';
-		
+
     requestHandler = { getReleases : function(){
             $httpBackend.expectGET('api.json',{
             'X-Mashape-Key': 'MY_IGDB_API_KEY',
@@ -66,15 +69,15 @@ describe('recentReleasesCtrl',function(){
     requestHandler.getReleases();
     requestHandler.getSteamList();
     
-    createController = function(){
-      return $controller('recentReleasesCtrl', { $scope : $scope});
-    };
-    
-    ctrl = createController();
+    ctrl = $controller('recentReleasesCtrl', {$scope: $scope});  
     ctrl.newReleases = releaseArray;
     ctrl.steamList = steamList;
-
   }));
+  
+  it('Should be true if the controller exists', function(){
+      
+    expect(ctrl).toBeDefined();
+  }); 
   
 	it('Should get the list of recent releases', function(){
 	  

@@ -1,10 +1,11 @@
 describe('gameSearchCtrl', function(){
-  
-    var resultArray,$controller,$httpBackend,$rootScope,requestHandler,createController,steamArray, $scope, searchctrl;
-    beforeEach(angular.mock.module('gameJudgement'));
-    beforeEach(inject(function($injector){
-      
-      resultArray = [
+
+    var searchctrl,$controller,$httpBackend,requestHandler,resultArray, steamArray, $scope;
+    
+    beforeEach(module('gameJudgement'));
+    beforeEach(inject(function(_$controller_, $injector){
+    // Sample data similar to what the IGDB API might provide us with  
+    resultArray = [
       {"id": 9509, "name": "Call of Duty: Black Ops III","rating": 71.3410650247185,"aggregated_rating": 76.7777777777778,"release_dates": [{"platform": 48},{       "platform": 49},{"platform": 6}], "cover": {"url": "//images.igdb.com/igdb/image/upload/t_thumb/sllwko8hqltmmklognzp.png","cloudinary_id": "sllwko8hqltmmklognzp","width": 1008,"height": 1161}}, {"id": 949,"name": "Call of Duty 3","rating": 68.5523819976335,"aggregated_rating": 71, "release_dates": [{ "platform": 12},{"platform": 11}, {"platform": 8},{"platform": 9},{"platform": 5}],"cover": {"url": "//images.igdb.com/igdb/image/upload/t_thumb/o94ra29yic3b1sfnwhei.png","cloudinary_id": "o94ra29yic3b1sfnwhei","width": 600,"height": 771 } },
       {"id": 979, "name": "Call of Duty: Modern Warfare 3", "rating": 68.3259509436741,"aggregated_rating": 89.4,"release_dates": [{"platform": 6},{"platform": 12}, {"platform": 9},{"platform": 5}],"cover": { "url": "//images.igdb.com/igdb/image/upload/t_thumb/obimr8uf45m5cdjltket.png","cloudinary_id": "obimr8uf45m5cdjltket","width": 763,"height": 1078}},
       {"id":559,"name":"Call of Duty:Modern Warfare 2", "rating": 77.5442100472389,"aggregated_rating": 94.2857142857143,"release_dates": [{"platform": 6},{"platform": 12},{"platform": 9}],"cover": {"url": "//images.igdb.com/igdb/image/upload/t_thumb/ky6nhzxx6aoje50cryzs.png", "cloudinary_id": "ky6nhzxx6aoje50cryzs", "width": 600, "height": 862}},
@@ -17,7 +18,6 @@ describe('gameSearchCtrl', function(){
       { "id": 20341,"name": "Dark Souls II: Crown of the Ivory King","aggregated_rating": 81.7142857142857,"release_dates": [{        "category": 0,"platform": 6,"date": 1411516800000,"y": 2014,"m": 9},{"category": 0,"platform": 9,"date": 1411516800000,        "y": 2014,"m": 9},{"category": 0,"platform": 12, "date": 1411516800000,"y": 2014,"m": 9}]},
   {"id": 7498,"name": "Tekken 7","release_dates": [{ "category": 0, "platform": 6,"date": 1496361600000,"region": 8,"y": 2017,"m": 6  },{"category": 0,"platform": 49,"date": 1496361600000, "region": 8,"y": 2017,"m": 6},{"category": 0,"platform": 48,"date":1496361600000, "region": 8,"y": 2017,"m": 6},{"category": 0,"platform": 52,"date": 1426636800000,"region": 5,"y": 2015,"m": 3}], "cover": {"url": "//images.igdb.com/igdb/image/upload/t_thumb/msgyrbeuh3bfdbc8avfz.png","cloudinary_id":"msgyrbeuh3bfdbc8avfz","width": 650,"height": 926}},
     {"id":13171,"name":"Read Only Memories","url":"https://www.igdb.com/games/read-only-memories","rating":99.2611637639798,"aggregated_rating":81.6666666666667,"release_dates":[{"category":0,"platform":72,"date":1405209600000,"region":8,"human":"2014-Jul-13","y":2014,"m":7},{"category":0,"platform":6,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":14,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":3,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":92,"date":1444089600000,"region":8,"human":"2015-Oct-06","y":2015,"m":10},{"category":0,"platform":48,"date":1484611200000,"region":8,"human":"2017-Jan-17","y":2017,"m":1},{"category":2,"platform":46,"date":1514678400000,"region":8,"human":"2017","y":2017,"m":12}],"alternative_names":[{"name":"2064: Read Only Memories","comment":"Updated rerelease"},{"name":"Read Only Memories: Type-M","comment":"Mobile release"}],"cover":{"cloudinary_id":"vxkifkekdswgaeoa3agm"}}];
-    
     steamArray = [
       {	"appid": 42680,"name": "Call of Duty Modern Warfare 3"},
 			{"appid": 209160,"name": "Call of Duty - Ghosts"},
@@ -31,10 +31,9 @@ describe('gameSearchCtrl', function(){
 			{"appid": 330820,"name": "2064: Read Only Memories"}
       ];
       
+      $controller = _$controller_;
+      $scope = {};
       
-      $controller = $injector.get('$controller');
-      $rootScope = $injector.get('$rootScope');
-      $scope = $rootScope.$new();
       $httpBackend = $injector.get('$httpBackend');
       
       requestHandler = { "getSearchResults": function(){
@@ -55,23 +54,24 @@ describe('gameSearchCtrl', function(){
                 return [200, {data: steamArray}, 'OK'];
             });
           }
-        
       };
-        
-      createController = function(){
-        return $controller('gameSearchCtrl', { $scope: $scope });
-      };  
+
+ 
       spyOn(requestHandler,'getSearchResults');
       spyOn(requestHandler,'getSteamList');
-      
-      searchctrl = createController();
-      searchctrl.steamList = steamArray;
-      searchctrl.games = resultArray;
-
-      
       requestHandler.getSearchResults();
       requestHandler.getSteamList();
+      
+      searchctrl = $controller('gameSearchCtrl', {$scope : $scope});
+      searchctrl.steamList = steamArray;
+      searchctrl.games = resultArray;
+      
     }));
+    
+    it('Should be true if the controller exists', function(){
+      
+     expect(searchctrl).toBeDefined();
+    });  
     
     it("Should be true if the request for search results sent by the user was sent", function() {
        
@@ -202,5 +202,4 @@ describe('gameSearchCtrl', function(){
       
       expect(searchctrl.altNameChecker() >= 1).toBe(true);
     });
-    
 });
