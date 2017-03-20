@@ -12,12 +12,8 @@ js/bootstrap.min.js
 js/jquery-3.1.1.min.js
 js/gameapp.min.js
 js/gameSearchComponent.min.js
+js/recentReleases.min.js
+js/recentReleasesComponent.min.js
 # minified css files
 css/style.min.css
 css/bootstrap.min.css
-# Recent releases JS files (already in recent_releases branch)
-js/recentReleases.js
-js/releaseComponent.js
-js/recentReleases.min.js
-js/releaseComponent.min.js
-js/gameapp.min.js

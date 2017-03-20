@@ -42,9 +42,8 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
     
     ctrl.rightNow = timeInMs;
     ctrl.threeMonthsAgo = threeMonthsAgo;
-    $http.defaults.headers.common['X-Mashape-Key'] = 'MY_IGDB_API_KEY';
     
-    function releaseNameCleaner(){
+    ctrl.releaseNameCleaner = function(){
       
       for(var i = 0; i < ctrl.steamList.length; i++){
         
@@ -99,53 +98,27 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
             
             ctrl.newReleases[j]["name"] = ctrl.steamList[i]["name"];
           }
+          
         }
       }
-    }
+    };
     
     $http.get('/steamList.json')
     .success(function(data, status, headers, config){
       
       ctrl.steamList = data;
       
-      releaseNameCleaner();
+      ctrl.releaseNameCleaner();
     });
     
-    var clickCounter = 0;
-    
+    ctrl.clickCounter = 0;
     
     $scope.getReleases = function(){
     
-    
-    clickCounter++;
-    
-    var formButtons = document.getElementById('form_buttons');
-    
-    $scope.target = parseInt(document.getElementById('target').value,10);
-    
-    var invalidNumber = document.getElementById('invalidNumber');
-    if (($scope.target < 1 ||$scope.target >= 101  ) || isNaN($scope.target ) ){
-      
-      invalidNumber.innerHTML = "Your threshold must be between 1 and 100";
-      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
-      return;
-    }
-    
-    var invalidGameName = document.getElementById('invalidGameName');
-    
-    if (search.value.length > 0){
-      
-    invalidGameName.innerHTML = search.value.length > 0 && clickCounter >= 1 ? "Game name is not needed. Please leave it blank" : "";
-      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Try Again</a>';
-      return;
-    }
+    ctrl.clickCounter++;
     
     if (!$scope.target){
       $scope.target = 75;
-    }
-    
-    if (clickCounter >= 1){
-      formButtons.innerHTML = '<a class="btn btn-primary" href="/">Start over</a>';
     }
     
     $http({
@@ -160,8 +133,7 @@ app.controller('recentReleasesCtrl',['$http','$scope',function($http,$scope){
       }).success(function(data, status, headers, config) {
 
           ctrl.newReleases = data;
-          releaseNameCleaner();
-         
+          ctrl.releaseNameCleaner();
       });
     };
 }]);

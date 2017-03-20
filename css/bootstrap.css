@@ -23,13 +23,10 @@ label{
   padding-right: 10px;
 }
 
-td img{
-  margin-left: auto;
-  margin-right: auto;
-}
-
 #site-title{
+  text-align: center;
   font-size: 40px;
+  color: #337ab7;
 
 }
 
@@ -1336,7 +1333,7 @@ h6,
   font-size: 12px;
 }
 p {
-  margin: 0 0 10px;
+  margin: 0 0 4px;
 }
 .lead {
   margin-bottom: 20px;
