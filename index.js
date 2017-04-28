@@ -12,7 +12,7 @@ var fs = require('fs');
 var compression = require('compression');
 
 var steam_api = "https://api.steampowered.com/ISteamApps/GetAppList/v2/";
-steam_api += "?key=MY_STEAM_WEB_API_KEY";
+steam_api += "?key=" + process.env.STEAM_API_KEY;
 steam_api += "&format=json";  
 
 // sets the default PORT where our app listens for incoming requests
