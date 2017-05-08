@@ -55,7 +55,7 @@
                         -->
                         <div class="form-group">
                             <label>Game name:</label>
-                            <p><input id="game" ng-model="game" type="text" ng-pattern="/^[a-zA-Z0-9 ]+$/" placeholder="game" name="game" required/></p>
+                            <p><input id="game" ng-model="game" type="text" ng-pattern="/^[-:a-zA-Z0-9 ]+$/" placeholder="game" name="game" required/></p>
                             <p ng-if="gameForm.game.$invalid"><b>Numbers and letters only for game searches!</b></p>
                         </div>
                         <div class="form-group">
