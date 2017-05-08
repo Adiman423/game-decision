@@ -40,12 +40,11 @@
             <div ng-controller="recentReleasesCtrl as ctrl">
                 <div class="container-fluid"> 
                     <h1 id="site-title"> GameJudgement</h1>
-                    <p id="slogan">Find out if you should buy that game</p>
+                    <p id="slogan">Find out if you should buy that game (preview edition)</p>
                     <div id="notes">
-                    <p><u><b>Notes:</b></u></p>
-                        <p>1) Smartphone users: turn your phone sideways/to a landscape orientation.<p>
-                        <p>2) Search results and recent releases are for PC games(for now)</p>
-                        <p>3) Target score is a review score (out of 100) that shall be used to determine if a game is worth buying. The default(if left blank) is 75</p>
+                    <p><u><b>Please Note:</b></u></p>
+                        <p>1) Search results and recent releases are for PC games(for now)</p>
+                        <p>2) Target score: If a game's review score from the press is higher than this score, then a "buy" recommendation will be displayed for it.</p>
                     </div>
                     <form name="gameForm" ng-init="game=''" class="form-horizontal">
                         <!--A form for the user to type in their search query for their game
@@ -56,19 +55,18 @@
                         -->
                         <div class="form-group">
                             <label>Game name:</label>
-                            <p><input id="game" ng-model="game" type="text" ng-pattern="/^[a-zA-Z0-9 ]+$/" placeholder="game" name="game" required/></p>
-                            <p ng-if="gameForm.game.$invalid"><b>Game name is invalid or not typed in. Numbers and letters only for game searches!</b></p>
-                            
+                            <p><input id="game" ng-model="game" type="text" ng-pattern="/^[-:a-zA-Z0-9 ]+$/" placeholder="game" name="game" required/></p>
+                            <p ng-if="gameForm.game.$invalid"><b>Numbers and letters only for game searches!</b></p>
                         </div>
                         <div class="form-group">
                             <!--This is the target score which is used to determine if a game is worth buying(which is 75 by default). More on this down below-->
                             <label>Target score (between 1 and 100 please):</label>
                             <p><input id="target" type="number" placeholder="target" ng-model="target" name="target" min="1" max="100" /></p>
-                            
-                            <p ng-if="gameForm.target.$invalid"><b>Your threshold must be between 1 and 100</b></p>
+                            <p ng-if="gameForm.target.$invalid"><b>Your target score must be between 1 and 100</b></p>
                         </div>
+                        <p>E.G.: A game has a press rating of 89 and is above the target score of 60, so a verdict of "buy" would be shown for it</p>
                         <div id="form_buttons" ng-if="searchctrl.clickCounter == 0 && ctrl.clickCounter == 0" >
-                            <button ng-disabled="(gameForm.game.$invalid && gameForm.game.$pristine) || gameForm.target.$invalid" type="submit" class="btn btn-primary" ng-click="search(game)">
+                            <button ng-disabled="(gameForm.game.$invalid || gameForm.game.$pristine) || gameForm.target.$invalid" type="submit" class="btn btn-primary" ng-click="search(game)">
                                 <p>Search</p>    
                             </button>
                             <button ng-disabled="game.length > 0 || gameForm.target.$invalid" type="submit" class="btn btn-primary" ng-click="getReleases()">
@@ -146,6 +144,7 @@
         </div>
         
         <div class="container-fluid">
+            <p>Any questions, or comments? Send an email to contact@gamejudgement.com</p>
             <p>Information was freely provided by <a href="http://www.igdb.com">IGDB.com</a></p>
             <p>
             This site is not associated/affiliated with Steam or Valve Corp. 
