@@ -27,7 +27,7 @@
     <p>NO IMAGE AVAILABLE</p>
 </div>
 <div ng-if="$ctrl.release.cover.cloudinary_id"class="div-table-cell">
-    <img class="img-responsive" ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{$ctrl.release.cover.cloudinary_id}}"/>
+    <img class="img-responsive" ng-src="https://images.igdb.com/igdb/image/upload/t_cover_big/{{$ctrl.release.cover.cloudinary_id}}.jpg"/>
 </div>
 
 <div ng-if="($ctrl.release.aggregated_rating >= $ctrl.target) || (!$ctrl.release.aggregated_rating && $ctrl.release.rating >= $ctrl.target)" class = "div-table-cell">
